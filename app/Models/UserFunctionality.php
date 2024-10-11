@@ -26,6 +26,8 @@ use Illuminate\Database\Eloquent\Model;
 class UserFunctionality extends Model
 {
 	protected $table = 'user_functionalities';
+	protected $primaryKey = 'id';
+	public $incrementing = true;
 
 	protected $casts = [
 		'user_id' => 'int',

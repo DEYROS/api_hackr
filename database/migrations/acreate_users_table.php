@@ -26,16 +26,16 @@ return new class extends Migration
         Schema::create('functionalities', function (Blueprint $table) {
             $table->id();
             $table->string('name'); // Nom de la fonctionnalité
-            $table->timestamps();
         });
 
-        // Table de liaison entre les utilisateurs et les fonctionnalités
         Schema::create('user_functionalities', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Clé étrangère vers 'users'
-            $table->foreignId('functionality_id')->constrained('functionalities')->onDelete('cascade'); // Clé étrangère vers 'functionalities'
-            $table->timestamps();
-        });
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('functionality_id')->constrained()->onDelete('cascade');
+        
+            // Création de la clé primaire composite
+            $table->unique(['user_id', 'functionality_id']);
+        });        
 
         // Table des tokens de réinitialisation de mot de passe
         Schema::create('password_reset_tokens', function (Blueprint $table) {

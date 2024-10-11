@@ -48,7 +48,7 @@ API qui met à disposition des outils de "hacking".
 - 🔍 Outil de vérification d'existence d'adresse mail
 - 📧 Spammer de mail (contenu + nombre d'envoi)
 - 🕵️‍♂️ Service de phishing (création d'une page web de phishing sur mesure, backé sur de l'IA)
-- 🔐 Vérification si un mot de passe est sur la liste des plus courants ([10k-most-common.txt](https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/10k-most-common.txt))
+- 🔐 Vérification si un mot de passe est sur la liste des plus courants ([10k-most-common.txt](https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/10k-most-common.txt)) ✔️
 - 🌐 Récupérer tous les domaines & sous-domaines associés à un Nom De Domaine
 - 💥 DDoS
 - 🖼️ Changement d'image random (trouver une API qui fait ça)
@@ -60,14 +60,14 @@ API qui met à disposition des outils de "hacking".
   - [Faker JAVA](https://javadoc.io/doc/com.github.javafaker/javafaker/latest/com/github/javafaker/Faker.html)
   - [Faker Ruby](https://github.com/faker-ruby/faker)
 - 🕵️‍♀️ Crawler d'informations sur une personne (à partir d'un nom / prénom)
-- 🔑 Générateur de mot de passe sécurisé
+- 🔑 Générateur de mot de passe sécurisé 
 
 ---
 
 ## Obligations 📜
 
-- 🔒 Contrôler l'accès à l'API grâce à un système de connexion basé sur JWT
-- 🛡️ Mettre en place un système de droits gérable par des administrateurs, permettant de définir quelles fonctionnalités peuvent être utilisées par quel utilisateur
+- 🔒 Contrôler l'accès à l'API grâce à un système de connexion basé sur JWT ✔️
+- 🛡️ Mettre en place un système de droits gérable par des administrateurs, permettant de définir quelles fonctionnalités peuvent être utilisées par quel utilisateur ✔️
 - 📋 Système de logs interne à l'API, consultable uniquement par les admins, pour suivre :
   - Les dernières actions réalisées
   - Les dernières actions d'un utilisateur spécifique

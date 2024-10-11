@@ -25,6 +25,8 @@ use Illuminate\Database\Eloquent\Model;
 class Functionality extends Model
 {
 	protected $table = 'functionalities';
+	protected $primaryKey = 'id';
+	public $incrementing = true;
 
 	protected $fillable = [
 		'name'

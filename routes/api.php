@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PasswordCheckController;
+use App\Http\Controllers\FunctionalityController;
+use App\Http\Middleware\AdminMiddleware;
  
 Route::group([
     'middleware' => 'api',
@@ -16,7 +18,19 @@ Route::group([
     Route::post('/me', [AuthController::class, 'me'])->middleware('auth:api')->name('me');
 });
 
-Route::middleware('auth:api')->group(function () {
+
+
+// Routes protégées par le middleware auth:api et admin
+Route::middleware(['auth:api'])->group(function () {
     Route::get('/users', [UserController::class, 'getUsers']);
     Route::post('/checkpassword', [PasswordCheckController::class, 'check'])->name('checkpassword');
+
+    // Routes pour l'administration des fonctionnalités des utilisateurs
+    Route::post('/users/{user}/functionalities/add', [FunctionalityController::class, 'addFunctionality'])
+         ->middleware(AdminMiddleware::class)
+         ->name('addFunctionality');
+         
+    Route::post('/users/{user}/functionalities/remove', [FunctionalityController::class, 'removeFunctionality'])
+         ->middleware(AdminMiddleware::class)
+         ->name('removeFunctionality');
 });
