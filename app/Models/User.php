@@ -1,17 +1,16 @@
 <?php
- 
+
 namespace App\Models;
- 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject; 
- 
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
+
 class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
- 
+
     /**
      * The attributes that are mass assignable.
      *
@@ -21,8 +20,9 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
+        'admin',  // Ajout de la colonne 'admin' pour la gestion du statut administrateur
     ];
- 
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -31,7 +31,7 @@ class User extends Authenticatable implements JWTSubject
     protected $hidden = [
         'password',
     ];
- 
+
     /**
      * Get the attributes that should be cast.
      *
@@ -44,7 +44,32 @@ class User extends Authenticatable implements JWTSubject
             'password' => 'hashed',
         ];
     }
- 
+
+    /**
+     * Relation with functionalities (Many-to-Many).
+     * A user can have multiple functionalities.
+     */
+    public function functionalities()
+    {
+        return $this->belongsToMany(Functionality::class, 'user_functionalities');
+    }
+
+    /**
+     * Check if the user has a specific functionality.
+     */
+    public function hasFunctionality($functionalityId)
+    {
+        return $this->functionalities()->where('functionality_id', $functionalityId)->exists();
+    }
+
+    /**
+     * Check if the user is an admin.
+     */
+    public function isAdmin()
+    {
+        return $this->admin === 1;
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
@@ -54,7 +79,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->getKey();
     }
- 
+
     /**
      * Return a key value array, containing any custom claims to be added to the JWT.
      *
