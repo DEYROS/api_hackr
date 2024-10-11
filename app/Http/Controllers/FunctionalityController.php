@@ -33,7 +33,7 @@ class FunctionalityController extends Controller
             'user_id' => auth()->id(),  // ID de l'utilisateur authentifié qui fait l'action
             'target_id' => $targetUser->id,  // ID de l'utilisateur cible
             'action' => 'Ajout de fonctionnalité à l\'utilisateur ' . $targetUser->name,
-            'functionality' => $request->input('functionality')
+            'functionality' => $functionality->id
         ]);
 
         return response()->json(['message' => 'Fonctionnalité ajoutée avec succès.']);
@@ -72,7 +72,7 @@ class FunctionalityController extends Controller
             'user_id' => auth()->id(),  // ID de l'utilisateur authentifié qui fait l'action
             'target_id' => $targetUser->id,  // ID de l'utilisateur cible
             'action' => 'Suppression de fonctionnalité de l\'utilisateur ' . $targetUser->name,
-            'functionality' => $request->input('functionality')
+            'functionality' => $functionality->id
         ]);
 
         return response()->json(['message' => 'Fonctionnalité supprimée avec succès.']);

@@ -1,7 +1,7 @@
 <?php
   
 namespace App\Http\Controllers;
-  
+use App\Models\Logs;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Validator;
@@ -31,6 +31,12 @@ class AuthController extends Controller
         $user->email = request()->email;
         $user->password = bcrypt(request()->password);
         $user->save();
+
+        Logs::create([
+            'user_id' => auth()->id(),
+            'target_id' => auth()->id(),
+            'action' => 'Inscription de : ' . request()->name,
+        ]);
   
         return response()->json($user, 201);
     }
@@ -48,7 +54,13 @@ class AuthController extends Controller
         if (! $token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-  
+        
+        Logs::create([
+            'user_id' => auth()->id(),
+            'target_id' => auth()->id(),
+            'action' => 'Connexion de : ' . auth()->user()->name,
+        ]);
+
         return $this->respondWithToken($token);
     }
   
@@ -69,8 +81,14 @@ class AuthController extends Controller
      */
     public function logout()
     {
+
+        Logs::create([
+            'user_id' => auth()->id(),
+            'target_id' => auth()->id(),
+            'action' => 'Déconnexion de : ' . auth()->user()->name,
+        ]);
         auth()->logout();
-  
+
         return response()->json(['message' => 'Successfully logged out']);
     }
   

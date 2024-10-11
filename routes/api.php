@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PasswordCheckController;
 use App\Http\Controllers\FunctionalityController;
+use App\Http\Controllers\LogController;
 use App\Http\Middleware\AdminMiddleware;
  
 Route::group([
@@ -34,7 +35,7 @@ Route::middleware(['auth:api'])->group(function () {
          ->middleware(AdminMiddleware::class)
          ->name('removeFunctionality');
 
-    Route::get('/logs', [LogController::class, 'getAllLogs'])->middleware(AdminMiddleware::class);
-    Route::get('/users/{user}/logs', [LogController::class, 'getUserLogs'])->middleware(AdminMiddleware::class);
-    Route::get('/functionalities/{functionality}/logs', [LogController::class, 'getFunctionalityLogs'])->middleware(AdminMiddleware::class);
+         Route::get('/logs', [LogController::class, 'getAllLogs'])->middleware(AdminMiddleware::class);
+         Route::get('/users/logs', [LogController::class, 'getUserLogs'])->middleware(AdminMiddleware::class); // Plus de {user}
+         Route::get('/functionalities/logs', [LogController::class, 'getFunctionalityLogs'])->middleware(AdminMiddleware::class);
 });
