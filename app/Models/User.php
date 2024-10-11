@@ -57,9 +57,9 @@ class User extends Authenticatable implements JWTSubject
     /**
      * Check if the user has a specific functionality.
      */
-    public function hasFunctionality($functionalityId)
+    public function hasFunctionality($functionalityName)
     {
-        return $this->functionalities()->where('functionality_id', $functionalityId)->exists();
+        return $this->functionalities()->where('name', $functionalityName)->exists();
     }
 
     /**

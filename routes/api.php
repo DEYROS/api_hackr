@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PasswordCheckController;
  
 Route::group([
     'middleware' => 'api',
@@ -17,4 +18,5 @@ Route::group([
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/users', [UserController::class, 'getUsers']);
+    Route::post('/checkpassword', [PasswordCheckController::class, 'check'])->name('checkpassword');
 });
