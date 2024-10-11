@@ -26,11 +26,15 @@ Route::middleware(['auth:api'])->group(function () {
     Route::post('/checkpassword', [PasswordCheckController::class, 'check'])->name('checkpassword');
 
     // Routes pour l'administration des fonctionnalités des utilisateurs
-    Route::post('/users/{user}/functionalities/add', [FunctionalityController::class, 'addFunctionality'])
+    Route::post('/users/functionalities/add', [FunctionalityController::class, 'addFunctionality'])
          ->middleware(AdminMiddleware::class)
          ->name('addFunctionality');
          
-    Route::post('/users/{user}/functionalities/remove', [FunctionalityController::class, 'removeFunctionality'])
+    Route::post('/users/functionalities/remove', [FunctionalityController::class, 'removeFunctionality'])
          ->middleware(AdminMiddleware::class)
          ->name('removeFunctionality');
+
+    Route::get('/logs', [LogController::class, 'getAllLogs'])->middleware(AdminMiddleware::class);
+    Route::get('/users/{user}/logs', [LogController::class, 'getUserLogs'])->middleware(AdminMiddleware::class);
+    Route::get('/functionalities/{functionality}/logs', [LogController::class, 'getFunctionalityLogs'])->middleware(AdminMiddleware::class);
 });

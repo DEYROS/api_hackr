@@ -2,27 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Logs;
 use App\Models\User;
+use Illuminate\Http\Request;
 use App\Models\Functionality;
 use App\Models\UserFunctionality;
-use Illuminate\Http\Request;
 
 class FunctionalityController extends Controller
 {
     /**
      * Ajouter une fonctionnalité à un utilisateur.
      */
-    public function addFunctionality(Request $request, User $user)
+    public function addFunctionality(Request $request)
     {
-        // Récupérer la fonctionnalité à partir du nom fourni
+        // Valider l'entrée
         $request->validate([
             'functionality' => 'required|string|exists:functionalities,name',
+            'user' => 'required|integer|exists:users,id', // Valider que l'utilisateur cible existe
         ]);
-        error_log( $request );
-        $functionality = Functionality::where('name', $request->input('functionality'))->first();
 
-        // Associer la fonctionnalité à l'utilisateur
-        $user->functionalities()->attach($functionality->id);
+        // Récupérer la fonctionnalité et l'utilisateur cible
+        $functionality = Functionality::where('name', $request->input('functionality'))->first();
+        $targetUser = User::find($request->input('user'));
+
+        // Associer la fonctionnalité à l'utilisateur cible
+        $targetUser->functionalities()->attach($functionality->id);
+
+        // Enregistrer le log avec user_id (utilisateur authentifié) et target_id (utilisateur cible)
+        Logs::create([
+            'user_id' => auth()->id(),  // ID de l'utilisateur authentifié qui fait l'action
+            'target_id' => $targetUser->id,  // ID de l'utilisateur cible
+            'action' => 'Ajout de fonctionnalité à l\'utilisateur ' . $targetUser->name,
+            'functionality' => $request->input('functionality')
+        ]);
 
         return response()->json(['message' => 'Fonctionnalité ajoutée avec succès.']);
     }
@@ -30,14 +42,20 @@ class FunctionalityController extends Controller
     /**
      * Supprimer une fonctionnalité d'un utilisateur.
      */
-    public function removeFunctionality(Request $request, User $user)
+    public function removeFunctionality(Request $request)
     {
-        // Trouver la fonctionnalité via son nom
+        // Valider l'entrée
+        $request->validate([
+            'functionality' => 'required|string|exists:functionalities,name',
+            'user' => 'required|integer|exists:users,id', // Valider que l'utilisateur cible existe
+        ]);
+
+        // Récupérer la fonctionnalité et l'utilisateur cible
         $functionality = Functionality::where('name', $request->input('functionality'))->first();
-        error_log( $user->id );
-        error_log( print_r($functionality, true) );
-        // Trouver l'enregistrement dans la table pivot
-        $userFunctionality = UserFunctionality::where('user_id', $user->id)
+        $targetUser = User::find($request->input('user'));
+
+        // Trouver l'enregistrement dans la table pivot pour l'utilisateur cible
+        $userFunctionality = UserFunctionality::where('user_id', $targetUser->id)
             ->where('functionality_id', $functionality->id)
             ->first();
 
@@ -49,8 +67,14 @@ class FunctionalityController extends Controller
         // Supprimer l'enregistrement de la table pivot
         $userFunctionality->delete();
 
+        // Enregistrer le log avec user_id (utilisateur authentifié) et target_id (utilisateur cible)
+        Logs::create([
+            'user_id' => auth()->id(),  // ID de l'utilisateur authentifié qui fait l'action
+            'target_id' => $targetUser->id,  // ID de l'utilisateur cible
+            'action' => 'Suppression de fonctionnalité de l\'utilisateur ' . $targetUser->name,
+            'functionality' => $request->input('functionality')
+        ]);
+
         return response()->json(['message' => 'Fonctionnalité supprimée avec succès.']);
     }
-
-
 }

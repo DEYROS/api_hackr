@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Logs;
 
 class PasswordCheckController extends Controller
 {
@@ -31,7 +32,13 @@ class PasswordCheckController extends Controller
             return response()->json(['message' => 'Ce mot de passe est trop commun :('], 400);
         }
 
+        Logs::create([
+            'user_id' => auth()->id(),  // ID de l'utilisateur authentifié qui fait l'action
+            'target_id' => auth()->id(),  // ID de l'utilisateur cible
+            'action' => auth()->user()->name.' vient de vérifier si le mdp '.$request->input('password').' était sécurisé',
+            'functionality' => 'checkpassword'
+        ]);
+
         return response()->json(['message' => 'Ce mot de passe est super secure !']);
     }
-
 }
