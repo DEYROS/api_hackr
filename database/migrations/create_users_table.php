@@ -11,21 +11,40 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Table des utilisateurs avec une colonne 'admin' pour définir le statut d'administrateur
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->boolean('admin')->default(0); // Colonne admin (0: non-admin, 1: admin)
             $table->timestamps();
         });
 
+        // Table des fonctionnalités
+        Schema::create('functionalities', function (Blueprint $table) {
+            $table->id();
+            $table->string('name'); // Nom de la fonctionnalité
+            $table->timestamps();
+        });
+
+        // Table de liaison entre les utilisateurs et les fonctionnalités
+        Schema::create('user_functionalities', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Clé étrangère vers 'users'
+            $table->foreignId('functionality_id')->constrained('functionalities')->onDelete('cascade'); // Clé étrangère vers 'functionalities'
+            $table->timestamps();
+        });
+
+        // Table des tokens de réinitialisation de mot de passe
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
         });
 
+        // Table des sessions
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->foreignId('user_id')->nullable()->index();
@@ -41,6 +60,8 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('user_functionalities');
+        Schema::dropIfExists('functionalities');
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
