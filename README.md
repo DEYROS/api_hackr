@@ -68,13 +68,13 @@ API qui met à disposition des outils de "hacking".
 
 - 🔒 Contrôler l'accès à l'API grâce à un système de connexion basé sur JWT ✔️
 - 🛡️ Mettre en place un système de droits gérable par des administrateurs, permettant de définir quelles fonctionnalités peuvent être utilisées par quel utilisateur ✔️
-- 📋 Système de logs interne à l'API, consultable uniquement par les admins, pour suivre : ✔️
+- 📋 Système de logs interne à l'API, consultable uniquement par les admins, pour suivre :
   - Les dernières actions réalisées ✔️
   - Les dernières actions d'un utilisateur spécifique ✔️
   - Les dernières actions d'une fonctionnalité spécifique ✔️
-- 📏 Respect strict des conventions RESTful
+- 📏 Respect strict des conventions RESTful ✔️
 - 📑 Intégrer `Swagger` pour la documentation ✔️
 - 📊 Respecter le modèle de maturité de Richardson
-- 🧪 Tester l'API via POSTMAN, incluant :
-  - Organisation des routes en collections dans un projet
-  - Automatisation de la génération du token Bearer (JWT) et sa transmission dans toutes les requêtes
+- 🧪 Tester l'API via POSTMAN, incluant : 
+  - Organisation des routes en collections dans un projet ✔️
+  - Automatisation de la génération du token Bearer (JWT) et sa transmission dans toutes les requêtes ✔️

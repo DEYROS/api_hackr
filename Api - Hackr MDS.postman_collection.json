@@ -7,235 +7,279 @@
 	},
 	"item": [
 		{
-			"name": "Users",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": {
-						"token": "{{access_token}}"
-					}
-				},
-				"method": "GET",
-				"header": [],
-				"url": "http://127.0.0.1:8000/api/users"
-			},
-			"response": []
-		},
-		{
-			"name": "Logs",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": {
-						"token": "{{access_token}}"
-					}
-				},
-				"method": "GET",
-				"header": [],
-				"url": "http://127.0.0.1:8000/api/logs"
-			},
-			"response": []
-		},
-		{
-			"name": "User Logs",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": {
-						"token": "{{access_token}}"
-					}
-				},
-				"method": "GET",
-				"header": [],
-				"url": "http://127.0.0.1:8000/api/users/1/logs"
-			},
-			"response": []
-		},
-		{
-			"name": "Functionalities Logs",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": {
-						"token": "{{access_token}}"
-					}
-				},
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://127.0.0.1:8000/api/functionalities/1/logs?user=1",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"functionalities",
-						"1",
-						"logs"
-					],
-					"query": [
-						{
-							"key": "user",
-							"value": "1"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "AUTH-Register",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "http://127.0.0.1:8000/api/auth/register?name=Adrien PERROT&email=perrotadrien@yahoo.com&password=Adrien12346",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"auth",
-						"register"
-					],
-					"query": [
-						{
-							"key": "name",
-							"value": "Adrien PERROT"
-						},
-						{
-							"key": "email",
-							"value": "perrotadrien@yahoo.com"
-						},
-						{
-							"key": "password",
-							"value": "Adrien12346"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "AUTH-Login",
-			"event": [
+			"name": "AUTH",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"var jsonData = pm.response.json();\r",
-							"\r",
-							"if (jsonData.access_token) { \r",
-							"    pm.collectionVariables.set(\"access_token\", jsonData.access_token);\r",
-							"}"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "http://127.0.0.1:8000/api/auth/login?email=perrotadrien@yahoo.com&password=Adrien12346",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"auth",
-						"login"
-					],
-					"query": [
-						{
-							"key": "email",
-							"value": "perrotadrien@yahoo.com"
-						},
-						{
-							"key": "password",
-							"value": "Adrien12346"
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/auth/register?name=Adrien PERROT&email=perrotadrien@yahoo.com&password=Adrien12346",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"register"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Adrien PERROT"
+								},
+								{
+									"key": "email",
+									"value": "perrotadrien@yahoo.com"
+								},
+								{
+									"key": "password",
+									"value": "Adrien12346"
+								}
+							]
 						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "AUTH-Refresh JWT Token",
-			"event": [
+					},
+					"response": []
+				},
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"var jsonData = pm.response.json();\r",
-							"\r",
-							"if (jsonData.access_token) { \r",
-							"    pm.collectionVariables.set(\"access_token\", jsonData.access_token);\r",
-							"}"
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"if (jsonData.access_token) { \r",
+									"    pm.collectionVariables.set(\"access_token\", jsonData.access_token);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/auth/login?email=perrotadrien@yahoo.com&password=Adrien12346",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "perrotadrien@yahoo.com"
+								},
+								{
+									"key": "password",
+									"value": "Adrien12346"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/auth/logout"
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh JWT",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"if (jsonData.access_token) { \r",
+									"    pm.collectionVariables.set(\"access_token\", jsonData.access_token);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/auth/refresh"
+					},
+					"response": []
+				},
+				{
+					"name": "Me (user info)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/auth/me"
+					},
+					"response": []
 				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": {
-						"token": "{{access_token}}"
-					}
-				},
-				"method": "POST",
-				"header": [],
-				"url": "http://127.0.0.1:8000/api/auth/refresh"
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "AUTH-Logout",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": {
-						"token": "{{access_token}}"
-					}
+			"name": "ADMIN",
+			"item": [
+				{
+					"name": "Add Functionality",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "functionality",
+									"value": "checkpassword",
+									"type": "text"
+								}
+							]
+						},
+						"url": "http://127.0.0.1:8000/api/users/1/functionalities"
+					},
+					"response": []
 				},
-				"method": "POST",
-				"header": [],
-				"url": "http://127.0.0.1:8000/api/auth/logout"
-			},
-			"response": []
+				{
+					"name": "Delete Functionality",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": "http://127.0.0.1:8000/api/users/1/functionalities/checkpassword"
+					},
+					"response": []
+				}
+			]
 		},
 		{
-			"name": "User Information",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": {
-						"token": "{{access_token}}"
-					}
+			"name": "LOGS",
+			"item": [
+				{
+					"name": "Logs",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/logs"
+					},
+					"response": []
 				},
-				"method": "POST",
-				"header": [],
-				"url": "http://127.0.0.1:8000/api/auth/me"
-			},
-			"response": []
+				{
+					"name": "User Logs",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/users/1/logs"
+					},
+					"response": []
+				},
+				{
+					"name": "Functionalities Logs",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/functionalities/1/logs?user=1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"functionalities",
+								"1",
+								"logs"
+							],
+							"query": [
+								{
+									"key": "user",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "CheckPassword",
@@ -273,7 +317,7 @@
 			"response": []
 		},
 		{
-			"name": "Add Functionality",
+			"name": "Users",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -281,54 +325,9 @@
 						"token": "{{access_token}}"
 					}
 				},
-				"method": "POST",
+				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "functionality",
-							"value": "checkpassword",
-							"type": "text"
-						},
-						{
-							"key": "user",
-							"value": "1",
-							"type": "text"
-						}
-					]
-				},
-				"url": "http://127.0.0.1:8000/api/users/functionalities/add"
-			},
-			"response": []
-		},
-		{
-			"name": "Delete Functionality",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": {
-						"token": "{{access_token}}"
-					}
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "functionality",
-							"value": "checkpassword",
-							"type": "text"
-						},
-						{
-							"key": "user",
-							"value": "1",
-							"type": "text"
-						}
-					]
-				},
-				"url": "http://127.0.0.1:8000/api/users/functionalities/remove"
+				"url": "http://127.0.0.1:8000/api/users"
 			},
 			"response": []
 		}
