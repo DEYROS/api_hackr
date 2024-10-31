@@ -17,9 +17,11 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::get('/me', [AuthController::class, 'me'])->middleware('auth:api')->name('me');
 });
 
+
+Route::get('/users', [UserController::class, 'getUsers']);
+
 // Routes protégées par le middleware auth:api et admin
 Route::middleware(['auth:api'])->group(function () {
-    Route::get('/users', [UserController::class, 'getUsers']);
 
     // Fonctionnalités : 
     Route::post('/checkpassword', [PasswordCheckController::class, 'check'])->name('checkpassword');
