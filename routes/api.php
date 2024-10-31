@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PasswordCheckController;
+use App\Http\Controllers\PasswordGeneratorController;
 use App\Http\Controllers\FunctionalityController;
 use App\Http\Controllers\LogController;
 use App\Http\Middleware\AdminMiddleware;
@@ -19,7 +20,11 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 // Routes protégées par le middleware auth:api et admin
 Route::middleware(['auth:api'])->group(function () {
     Route::get('/users', [UserController::class, 'getUsers']);
+
+    // Fonctionnalités : 
     Route::post('/checkpassword', [PasswordCheckController::class, 'check'])->name('checkpassword');
+    Route::post('/password/generate', [PasswordGeneratorController::class, 'generate'])->name('generate.password');
+
 
     // Routes pour l'administration des fonctionnalités des utilisateurs
     Route::post('/users/{user}/functionalities', [FunctionalityController::class, 'addFunctionality'])

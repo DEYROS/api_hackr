@@ -60,7 +60,7 @@ API qui met à disposition des outils de "hacking".
   - [Faker JAVA](https://javadoc.io/doc/com.github.javafaker/javafaker/latest/com/github/javafaker/Faker.html)
   - [Faker Ruby](https://github.com/faker-ruby/faker)
 - 🕵️‍♀️ Crawler d'informations sur une personne (à partir d'un nom / prénom)
-- 🔑 Générateur de mot de passe sécurisé 
+- 🔑 Générateur de mot de passe sécurisé ✔️
 
 ---
 
