@@ -12,14 +12,20 @@ class FunctionalityController extends Controller
 {
     /**
      * @OA\Post(
-     *     path="/functionality/add",
+     *     path="/api/users/{user}/functionalities",
      *     summary="Add functionality to a user",
      *     tags={"Functionality"},
+     *     @OA\Parameter(
+     *         name="user",
+     *         in="path",
+     *         required=true,
+     *         description="The ID of the user to add functionality to",
+     *         @OA\Schema(type="integer")
+     *     ),
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="functionality", type="string", description="The name of the functionality to add"),
-     *             @OA\Property(property="user", type="integer", description="The ID of the user to add functionality to")
+     *             @OA\Property(property="functionality", type="string", description="The name of the functionality to add")
      *         )
      *     ),
      *     @OA\Response(response=200, description="Functionality added successfully"),
@@ -28,17 +34,18 @@ class FunctionalityController extends Controller
      *
      * Ajouter une fonctionnalité à un utilisateur.
      */
-    public function addFunctionality(Request $request)
+    public function addFunctionality(Request $request, $userId)
     {
         // Valider l'entrée
         $request->validate([
             'functionality' => 'required|string|exists:functionalities,name',
-            'user' => 'required|integer|exists:users,id', // Valider que l'utilisateur cible existe
         ]);
 
-        // Récupérer la fonctionnalité et l'utilisateur cible
+        // Récupérer l'utilisateur cible
+        $targetUser = User::findOrFail($userId); // Utiliser findOrFail pour lever une exception si non trouvé
+
+        // Récupérer la fonctionnalité
         $functionality = Functionality::where('name', $request->input('functionality'))->first();
-        $targetUser = User::find($request->input('user'));
 
         // Associer la fonctionnalité à l'utilisateur cible
         $targetUser->functionalities()->attach($functionality->id);
@@ -56,15 +63,22 @@ class FunctionalityController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/functionality/remove",
+     *     path="/api/users/{user}/functionalities/{functionality}",
      *     summary="Remove functionality from a user",
      *     tags={"Functionality"},
-     *     @OA\RequestBody(
+     *     @OA\Parameter(
+     *         name="user",
+     *         in="path",
      *         required=true,
-     *         @OA\JsonContent(
-     *             @OA\Property(property="functionality", type="string", description="The name of the functionality to remove"),
-     *             @OA\Property(property="user", type="integer", description="The ID of the user to remove functionality from")
-     *         )
+     *         description="The ID of the user to remove functionality from",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="functionality",
+     *         in="path",
+     *         required=true,
+     *         description="The name of the functionality to remove",
+     *         @OA\Schema(type="string")
      *     ),
      *     @OA\Response(response=200, description="Functionality removed successfully"),
      *     @OA\Response(response=400, description="Validation error or functionality not associated with the user")
@@ -72,17 +86,13 @@ class FunctionalityController extends Controller
      *
      * Supprimer une fonctionnalité d'un utilisateur.
      */
-    public function removeFunctionality(Request $request)
+    public function removeFunctionality(Request $request, $userId, $functionalityName)
     {
-        // Valider l'entrée
-        $request->validate([
-            'functionality' => 'required|string|exists:functionalities,name',
-            'user' => 'required|integer|exists:users,id', // Valider que l'utilisateur cible existe
-        ]);
+        // Valider que l'utilisateur existe
+        $targetUser = User::findOrFail($userId);
 
-        // Récupérer la fonctionnalité et l'utilisateur cible
-        $functionality = Functionality::where('name', $request->input('functionality'))->first();
-        $targetUser = User::find($request->input('user'));
+        // Récupérer la fonctionnalité
+        $functionality = Functionality::where('name', $functionalityName)->firstOrFail();
 
         // Trouver l'enregistrement dans la table pivot pour l'utilisateur cible
         $userFunctionality = UserFunctionality::where('user_id', $targetUser->id)

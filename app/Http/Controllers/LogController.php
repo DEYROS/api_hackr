@@ -4,13 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Logs;
 use Illuminate\Http\Request;
-use App\Models\User;
 
 class LogController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/logs",
+     *     path="/api/logs",
      *     summary="Get all logs",
      *     tags={"Logs"},
      *     @OA\Response(response=200, description="Logs retrieved successfully"),
@@ -27,12 +26,12 @@ class LogController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/logs/user",
+     *     path="/api/users/{user}/logs",
      *     summary="Get logs for a specific user",
      *     tags={"Logs"},
      *     @OA\Parameter(
      *         name="user",
-     *         in="query",
+     *         in="path",
      *         required=true,
      *         description="User ID to filter logs",
      *         @OA\Schema(type="integer")
@@ -42,30 +41,24 @@ class LogController extends Controller
      *     security={{"bearerAuth": {}}}
      * )
      *
-     * Récupère les logs d'un utilisateur spécifique, en fonction du paramètre user
+     * Récupère les logs d'un utilisateur spécifique via l'ID utilisateur dans l'URL
      */
-    public function getUserLogs(Request $request)
+    public function getUserLogs($userId)
     {
-        $userId = $request->query('user'); // Récupérer le paramètre user
-
-        if ($userId) {
-            return Logs::where('user_id', $userId)->orderBy('created_at', 'desc')->paginate(10);
-        }
-
-        return response()->json(['error' => 'User ID is required'], 400);
+        return Logs::where('user_id', $userId)->orderBy('created_at', 'desc')->paginate(10);
     }
 
     /**
      * @OA\Get(
-     *     path="/logs/functionality",
+     *     path="/api/functionalities/{functionality}/logs",
      *     summary="Get logs for a specific functionality, optionally filtered by user",
      *     tags={"Logs"},
      *     @OA\Parameter(
      *         name="functionality",
-     *         in="query",
+     *         in="path",
      *         required=true,
-     *         description="Functionality name to filter logs",
-     *         @OA\Schema(type="string")
+     *         description="Functionality ID to filter logs",
+     *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="user",
@@ -79,14 +72,13 @@ class LogController extends Controller
      *     security={{"bearerAuth": {}}}
      * )
      *
-     * Récupère les logs d'une fonctionnalité et, éventuellement, d'un utilisateur
+     * Récupère les logs d'une fonctionnalité, filtrés éventuellement par l'utilisateur
      */
-    public function getFunctionalityLogs(Request $request)
+    public function getFunctionalityLogs($functionalityId, Request $request)
     {
-        $functionality = $request->query('functionality'); // Récupérer la fonctionnalité
         $userId = $request->query('user'); // Récupérer l'ID utilisateur si fourni
 
-        $query = Logs::where('functionality', $functionality);
+        $query = Logs::where('functionality', $functionalityId);
 
         // Ajouter un filtre par utilisateur si l'ID est fourni
         if ($userId) {

@@ -1,18 +1,18 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "API Authentication",
-        "description": "API for user authentication and registration",
+        "title": "API Documentation hackr",
+        "description": "API for 'hacking' ! Thx Kevin Niel for this awesome Idea.",
         "version": "1.0.0"
     },
     "paths": {
-        "/register": {
+        "/api/auth/register": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
                 "summary": "Register a new user",
-                "operationId": "0903f2e0df1a8857bee538fc055417f0",
+                "operationId": "d764dd091cc4494ae0baf360b03319f3",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -49,13 +49,13 @@
                 }
             }
         },
-        "/login": {
+        "/api/auth/login": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
                 "summary": "Log in a user",
-                "operationId": "2dd578ff7aba2721293dac66833b27d1",
+                "operationId": "8dcb70df1020986038d098cc08d05dae",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -91,13 +91,13 @@
                 }
             }
         },
-        "/me": {
+        "/api/auth/me": {
             "get": {
                 "tags": [
                     "Auth"
                 ],
                 "summary": "Get the authenticated user",
-                "operationId": "e18baa7d6dfc432241dca2fc1985ce40",
+                "operationId": "b9abb1a7a74670a19c215c2c133f14d8",
                 "responses": {
                     "200": {
                         "description": "Authenticated user details"
@@ -108,13 +108,13 @@
                 }
             }
         },
-        "/logout": {
+        "/api/auth/logout": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
                 "summary": "Log out the authenticated user",
-                "operationId": "68a6108af04af5e3bc1ea68a6c6f1299",
+                "operationId": "69281b12abb272c76871f19cb17ca563",
                 "responses": {
                     "200": {
                         "description": "Successfully logged out"
@@ -125,13 +125,13 @@
                 }
             }
         },
-        "/refresh": {
+        "/api/auth/refresh": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
                 "summary": "Refresh the authentication token",
-                "operationId": "0c3ea3c61aed881016646810460499e9",
+                "operationId": "b2eae7a8032954d25b46c7ec6f489c68",
                 "responses": {
                     "200": {
                         "description": "Token refreshed"
@@ -142,13 +142,24 @@
                 }
             }
         },
-        "/functionality/add": {
+        "/api/users/{user}/functionalities": {
             "post": {
                 "tags": [
                     "Functionality"
                 ],
                 "summary": "Add functionality to a user",
-                "operationId": "ac24e80785c3095caf36a9660768242f",
+                "operationId": "a9fbdc5b10fb356655eee7cf0f750a15",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "The ID of the user to add functionality to",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -158,10 +169,6 @@
                                     "functionality": {
                                         "description": "The name of the functionality to add",
                                         "type": "string"
-                                    },
-                                    "user": {
-                                        "description": "The ID of the user to add functionality to",
-                                        "type": "integer"
                                     }
                                 },
                                 "type": "object"
@@ -179,33 +186,33 @@
                 }
             }
         },
-        "/functionality/remove": {
+        "/api/users/{user}/functionalities/{functionality}": {
             "delete": {
                 "tags": [
                     "Functionality"
                 ],
                 "summary": "Remove functionality from a user",
-                "operationId": "fd0bfde97fc81f2f71b6c5ce61efd168",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "functionality": {
-                                        "description": "The name of the functionality to remove",
-                                        "type": "string"
-                                    },
-                                    "user": {
-                                        "description": "The ID of the user to remove functionality from",
-                                        "type": "integer"
-                                    }
-                                },
-                                "type": "object"
-                            }
+                "operationId": "ee49a44629ccf8c43a6a7453a332fd9d",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "description": "The ID of the user to remove functionality from",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "functionality",
+                        "in": "path",
+                        "description": "The name of the functionality to remove",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
                         }
                     }
-                },
+                ],
                 "responses": {
                     "200": {
                         "description": "Functionality removed successfully"
@@ -216,13 +223,13 @@
                 }
             }
         },
-        "/logs": {
+        "/api/logs": {
             "get": {
                 "tags": [
                     "Logs"
                 ],
                 "summary": "Get all logs",
-                "operationId": "db99adaef52c2d96c0d27b2a0d3889f5",
+                "operationId": "f6af6e6d1c3976704d6cdeb29a6f4921",
                 "responses": {
                     "200": {
                         "description": "Logs retrieved successfully"
@@ -238,17 +245,17 @@
                 ]
             }
         },
-        "/logs/user": {
+        "/api/users/{user}/logs": {
             "get": {
                 "tags": [
                     "Logs"
                 ],
                 "summary": "Get logs for a specific user",
-                "operationId": "8ab2dec102b0eda6b02cc99d13472566",
+                "operationId": "6a99ce197cb6c0a5b022e9fae0ffb204",
                 "parameters": [
                     {
                         "name": "user",
-                        "in": "query",
+                        "in": "path",
                         "description": "User ID to filter logs",
                         "required": true,
                         "schema": {
@@ -271,21 +278,21 @@
                 ]
             }
         },
-        "/logs/functionality": {
+        "/api/functionalities/{functionality}/logs": {
             "get": {
                 "tags": [
                     "Logs"
                 ],
                 "summary": "Get logs for a specific functionality, optionally filtered by user",
-                "operationId": "d92ef889d1dc70b1c116c0b698c5f983",
+                "operationId": "ccd2fe1fb1146e73026949e27ed5d9ca",
                 "parameters": [
                     {
                         "name": "functionality",
-                        "in": "query",
-                        "description": "Functionality name to filter logs",
+                        "in": "path",
+                        "description": "Functionality ID to filter logs",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         }
                     },
                     {
@@ -353,6 +360,34 @@
                     }
                 ]
             }
+        },
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get all users",
+                "operationId": "4db02f0d9ccd97469981e0cb03d1a41e",
+                "responses": {
+                    "200": {
+                        "description": "Users retrieved successfully"
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "tags": [
@@ -371,6 +406,10 @@
         {
             "name": "Password",
             "description": "Password"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
         }
     ]
 }

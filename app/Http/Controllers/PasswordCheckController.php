@@ -34,7 +34,7 @@ class PasswordCheckController extends Controller
 
         // Vérification si l'utilisateur a la fonctionnalité "checkpassword"
         if (!$request->user()->hasFunctionality('checkpassword')) {
-            return response()->json(['error' => 'You do not have the functionality.'], 403);
+            return response()->json(['error' => 'Tu ne peux pas faire ça, il te manque la fonctionnalité !'], 403);
         }
 
         $password = $request->input('password');

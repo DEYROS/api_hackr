@@ -9,16 +9,16 @@ use Validator;
 
 /**
  * @OA\Info(
- *     title="API Authentication",
+ *     title="API Documentation hackr",
  *     version="1.0.0",
- *     description="API for user authentication and registration"
+ *     description="API for 'hacking' ! Thx Kevin Niel for this awesome Idea."
  * )
  */
 class AuthController extends Controller
 {
     /**
      * @OA\Post(
-     *     path="/register",
+     *     path="/api/auth/register",
      *     summary="Register a new user",
      *     tags={"Auth"},
      *     @OA\RequestBody(
@@ -62,7 +62,7 @@ class AuthController extends Controller
   
     /**
      * @OA\Post(
-     *     path="/login",
+     *     path="/api/auth/login",
      *     summary="Log in a user",
      *     tags={"Auth"},
      *     @OA\RequestBody(
@@ -96,7 +96,7 @@ class AuthController extends Controller
   
     /**
      * @OA\Get(
-     *     path="/me",
+     *     path="/api/auth/me",
      *     summary="Get the authenticated user",
      *     tags={"Auth"},
      *     @OA\Response(response=200, description="Authenticated user details"),
@@ -110,7 +110,7 @@ class AuthController extends Controller
   
     /**
      * @OA\Post(
-     *     path="/logout",
+     *     path="/api/auth/logout",
      *     summary="Log out the authenticated user",
      *     tags={"Auth"},
      *     @OA\Response(response=200, description="Successfully logged out"),
@@ -131,7 +131,7 @@ class AuthController extends Controller
   
     /**
      * @OA\Post(
-     *     path="/refresh",
+     *     path="/api/auth/refresh",
      *     summary="Refresh the authentication token",
      *     tags={"Auth"},
      *     @OA\Response(response=200, description="Token refreshed"),
