@@ -1,5 +1,5 @@
 # TP HackR 🚀
-[Repo de l'intervenant Kevin](https://github.com/kevinniel/M1-MDS-2425-API)
+[Repo de l'intervenant Kevin Niel](https://github.com/kevinniel/M1-MDS-2425-API)
 
 ## Comment installer :
 
@@ -39,7 +39,7 @@
 ---
 
 ## Description :
-API qui met à disposition des outils de "hacking".
+TP HackR est une API développée sous Laravel 11, offrant des outils de simulation de sécurité via une connexion sécurisée par JWT. Elle propose des fonctionnalités variées comme la vérification d’adresses email, un générateur d’identités fictives, et un service de phishing IA. Conçue en respectant les conventions RESTful, l’API inclut un système de droits administratifs modulables et un suivi des actions par logs, accessible aux administrateurs. La documentation est générée via Swagger et testée sur Postman pour garantir fiabilité et sécurité.
 
 ---
 
