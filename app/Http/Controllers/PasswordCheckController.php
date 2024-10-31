@@ -9,6 +9,22 @@ use App\Models\Logs;
 class PasswordCheckController extends Controller
 {
     /**
+     * @OA\Post(
+     *     path="/password/check",
+     *     summary="Check if a password is in the list of most common passwords",
+     *     tags={"Password"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="password", type="string", description="The password to check")
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Password is secure"),
+     *     @OA\Response(response=400, description="Password is too common"),
+     *     @OA\Response(response=403, description="User does not have the necessary functionality"),
+     *     security={{"bearerAuth": {}}}
+     * )
+     *
      * Check if the password is in the list of most common passwords.
      */
     public function check(Request $request)

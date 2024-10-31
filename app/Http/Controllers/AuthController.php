@@ -1,28 +1,47 @@
 <?php
   
 namespace App\Http\Controllers;
+
 use App\Models\Logs;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Validator;
-  
-  
+
+/**
+ * @OA\Info(
+ *     title="API Authentication",
+ *     version="1.0.0",
+ *     description="API for user authentication and registration"
+ * )
+ */
 class AuthController extends Controller
 {
- 
     /**
-     * Register a User.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @OA\Post(
+     *     path="/register",
+     *     summary="Register a new user",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string", description="User's name"),
+     *             @OA\Property(property="email", type="string", format="email", description="User's email"),
+     *             @OA\Property(property="password", type="string", format="password", description="User's password")
+     *         )
+     *     ),
+     *     @OA\Response(response=201, description="User registered successfully"),
+     *     @OA\Response(response=400, description="Validation error")
+     * )
      */
-    public function register() {
+    public function register()
+    {
         $validator = Validator::make(request()->all(), [
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
         ]);
   
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json($validator->errors()->toJson(), 400);
         }
   
@@ -37,15 +56,26 @@ class AuthController extends Controller
             'target_id' => auth()->id(),
             'action' => 'Inscription de : ' . request()->name,
         ]);
-  
+
         return response()->json($user, 201);
     }
   
-  
     /**
-     * Get a JWT via given credentials.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @OA\Post(
+     *     path="/login",
+     *     summary="Log in a user",
+     *     tags={"Auth"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="email", type="string", format="email", description="User's email"),
+     *             @OA\Property(property="password", type="string", format="password", description="User's password")
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="User logged in successfully"),
+     *     @OA\Response(response=401, description="Unauthorized"),
+     *     @OA\Response(response=400, description="Bad request")
+     * )
      */
     public function login()
     {
@@ -54,7 +84,7 @@ class AuthController extends Controller
         if (! $token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-        
+
         Logs::create([
             'user_id' => auth()->id(),
             'target_id' => auth()->id(),
@@ -65,9 +95,13 @@ class AuthController extends Controller
     }
   
     /**
-     * Get the authenticated User.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @OA\Get(
+     *     path="/me",
+     *     summary="Get the authenticated user",
+     *     tags={"Auth"},
+     *     @OA\Response(response=200, description="Authenticated user details"),
+     *     @OA\Response(response=401, description="Unauthorized")
+     * )
      */
     public function me()
     {
@@ -75,13 +109,16 @@ class AuthController extends Controller
     }
   
     /**
-     * Log the user out (Invalidate the token).
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @OA\Post(
+     *     path="/logout",
+     *     summary="Log out the authenticated user",
+     *     tags={"Auth"},
+     *     @OA\Response(response=200, description="Successfully logged out"),
+     *     @OA\Response(response=401, description="Unauthorized")
+     * )
      */
     public function logout()
     {
-
         Logs::create([
             'user_id' => auth()->id(),
             'target_id' => auth()->id(),
@@ -93,9 +130,13 @@ class AuthController extends Controller
     }
   
     /**
-     * Refresh a token.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @OA\Post(
+     *     path="/refresh",
+     *     summary="Refresh the authentication token",
+     *     tags={"Auth"},
+     *     @OA\Response(response=200, description="Token refreshed"),
+     *     @OA\Response(response=401, description="Unauthorized")
+     * )
      */
     public function refresh()
     {
@@ -103,10 +144,9 @@ class AuthController extends Controller
     }
   
     /**
-     * Get the token array structure.
+     * Respond with the token structure.
      *
      * @param  string $token
-     *
      * @return \Illuminate\Http\JsonResponse
      */
     protected function respondWithToken($token)

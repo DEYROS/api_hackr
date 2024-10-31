@@ -11,6 +11,21 @@ use App\Models\UserFunctionality;
 class FunctionalityController extends Controller
 {
     /**
+     * @OA\Post(
+     *     path="/functionality/add",
+     *     summary="Add functionality to a user",
+     *     tags={"Functionality"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="functionality", type="string", description="The name of the functionality to add"),
+     *             @OA\Property(property="user", type="integer", description="The ID of the user to add functionality to")
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Functionality added successfully"),
+     *     @OA\Response(response=400, description="Validation error or functionality not found")
+     * )
+     *
      * Ajouter une fonctionnalité à un utilisateur.
      */
     public function addFunctionality(Request $request)
@@ -40,6 +55,21 @@ class FunctionalityController extends Controller
     }
 
     /**
+     * @OA\Delete(
+     *     path="/functionality/remove",
+     *     summary="Remove functionality from a user",
+     *     tags={"Functionality"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="functionality", type="string", description="The name of the functionality to remove"),
+     *             @OA\Property(property="user", type="integer", description="The ID of the user to remove functionality from")
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Functionality removed successfully"),
+     *     @OA\Response(response=400, description="Validation error or functionality not associated with the user")
+     * )
+     *
      * Supprimer une fonctionnalité d'un utilisateur.
      */
     public function removeFunctionality(Request $request)
