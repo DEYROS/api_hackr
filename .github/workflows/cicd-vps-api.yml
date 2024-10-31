@@ -24,6 +24,10 @@ jobs:
 
     - name: Set permissions
       run: |
+        # Ajout de la clé hôte au known_hosts
+        mkdir -p ~/.ssh
+        ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+        
         ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
           sudo chown -R www-data:www-data /var/www/html/apihackr
           sudo chmod -R 775 /var/www/html/apihackr/storage
