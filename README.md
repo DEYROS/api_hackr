@@ -88,7 +88,7 @@ TP HackR est une API développée sous Laravel 11, offrant des outils de simulat
     -   Les dernières actions d'une fonctionnalité spécifique ✔️
 -   📏 Respect strict des conventions RESTful ✔️
 -   📑 Intégrer `Swagger` pour la documentation ✔️
--   📊 Respecter le modèle de maturité de Richardson
+-   📊 Respecter le modèle de maturité de Richardson ✔️
 -   🧪 Tester l'API via POSTMAN, incluant :
     -   Organisation des routes en collections dans un projet ✔️
     -   Automatisation de la génération du token Bearer (JWT) et sa transmission dans toutes les requêtes ✔️
