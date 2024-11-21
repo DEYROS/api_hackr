@@ -64,7 +64,7 @@ TP HackR est une API développée sous Laravel 11, offrant des outils de simulat
 -   💥 DDoS ✔️
 -   🔍 Outil de vérification d'existence d'adresse mail ✔️
 -   📧 Spammer de mail (contenu + nombre d'envoi) ✔️
--   🕵️‍♀️ Crawler d'informations sur une personne (à partir d'un nom / prénom)
+-   🕵️‍♀️ Crawler d'informations sur une personne (à partir d'un nom / prénom)  ✔️
 -   🌐 Récupérer tous les domaines & sous-domaines associés à un Nom De Domaine
 -   🖼️ Changement d'image random (trouver une API qui fait ça)
 -   👤 Génération d'identité fictive (utilisez la librairie Faker !) :
