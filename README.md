@@ -53,7 +53,7 @@
 
 ## Description :
 
-TP HackR est une API développée sous Laravel 11, offrant des outils de simulation de sécurité via une connexion sécurisée par JWT. Elle propose des fonctionnalités variées comme la vérification d’adresses email, un générateur d’identités fictives, et un service de phishing IA. Conçue en respectant les conventions RESTful, l’API inclut un système de droits administratifs modulables et un suivi des actions par logs, accessible aux administrateurs. La documentation est générée via Swagger et testée sur Postman pour garantir fiabilité et sécurité.
+TP HackR est une API développée sous Laravel 11, offrant des outils de simulation de sécurité via une connexion sécurisée par JWT. Elle propose des fonctionnalités variées comme la vérification d’adresses email, un générateur d’identités fictives, et un service de phishing IA. Conçue en respectant les conventions RESTful, l’API inclut un système de droits administratifs modulables et un suivi des actions par logs, accessible aux administrateurs. La documentation est générée via Swagger et testée sur Postman pour garantir fiabilité et sécurité. Un administrateur peut attribuer des fonctionnalités aux utilisateurs, par défaut un nouvel utilisateur ne peut pas utiliser les fonctionnalités mises à disposition !
 
 ---
 
@@ -64,7 +64,7 @@ TP HackR est une API développée sous Laravel 11, offrant des outils de simulat
 -   💥 DDoS ✔️
 -   🔍 Outil de vérification d'existence d'adresse mail ✔️
 -   📧 Spammer de mail (contenu + nombre d'envoi) ✔️
--   🕵️‍♂️ Service de phishing (création d'une page web de phishing sur mesure, backé sur de l'IA)
+-   🕵️‍♀️ Crawler d'informations sur une personne (à partir d'un nom / prénom)
 -   🌐 Récupérer tous les domaines & sous-domaines associés à un Nom De Domaine
 -   🖼️ Changement d'image random (trouver une API qui fait ça)
 -   👤 Génération d'identité fictive (utilisez la librairie Faker !) :
@@ -74,8 +74,7 @@ TP HackR est une API développée sous Laravel 11, offrant des outils de simulat
     -   [Faker .NET](https://www.nuget.org/packages/Faker.Net/)
     -   [Faker JAVA](https://javadoc.io/doc/com.github.javafaker/javafaker/latest/com/github/javafaker/Faker.html)
     -   [Faker Ruby](https://github.com/faker-ruby/faker)
--   🕵️‍♀️ Crawler d'informations sur une personne (à partir d'un nom / prénom)
-
+-   🕵️‍♂️ Service de phishing (création d'une page web de phishing sur mesure, backé sur de l'IA)
 ---
 
 ## Obligations 📜

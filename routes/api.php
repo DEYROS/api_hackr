@@ -8,6 +8,7 @@ use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\PasswordCheckController;
 use App\Http\Controllers\PasswordGeneratorController;
 use App\Http\Controllers\FunctionalityController;
+use App\Http\Controllers\CrawlerController;
 use App\Http\Controllers\SpamMailController;
 use App\Http\Controllers\LogController;
 use App\Http\Middleware\AdminMiddleware;
@@ -51,4 +52,7 @@ Route::middleware(['auth:api'])->group(function () {
 
     // Route pour spam de mails
     Route::post('/spam-email', [SpamMailController::class, 'sendEmail'])->name('send.email');
+
+    // Route pour récupérer les infos de quelqu'un
+    Route::post('/crawl-person', [CrawlerController::class, 'crawlPerson']);
 });
