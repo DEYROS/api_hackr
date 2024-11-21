@@ -178,13 +178,13 @@
                 ]
             }
         },
-        "/crawl-person": {
+        "/api/crawl-person": {
             "post": {
                 "tags": [
                     "Func - Crawler"
                 ],
                 "summary": "Retrieve information about a person using their name, surname or pseudonym",
-                "operationId": "d8410e1d45854a8c2d464b338221429a",
+                "operationId": "e0a4963762a15bcd22c443c8b536efa0",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -193,7 +193,8 @@
                                 "properties": {
                                     "name": {
                                         "description": "The name, surname, or pseudonym of the person to search",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "John Doe"
                                     }
                                 },
                                 "type": "object"
@@ -210,6 +211,9 @@
                     },
                     "403": {
                         "description": "User does not have the necessary functionality"
+                    },
+                    "500": {
+                        "description": "Internal server error"
                     }
                 },
                 "security": [

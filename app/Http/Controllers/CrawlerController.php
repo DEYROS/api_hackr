@@ -11,19 +11,20 @@ class CrawlerController extends Controller
 {
     /**
      * @OA\Post(
-     *     path="/crawl-person",
+     *     path="/api/crawl-person",
      *     summary="Retrieve information about a person using their name, surname or pseudonym",
      *     tags={"Func - Crawler"},
+     *     security={{"bearerAuth": {}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="name", type="string", description="The name, surname, or pseudonym of the person to search"),
+     *             @OA\Property(property="name", type="string", description="The name, surname, or pseudonym of the person to search", example="John Doe")
      *         )
      *     ),
      *     @OA\Response(response=200, description="Information retrieved successfully"),
      *     @OA\Response(response=400, description="Invalid input"),
      *     @OA\Response(response=403, description="User does not have the necessary functionality"),
-     *     security={{"bearerAuth": {}}}
+     *     @OA\Response(response=500, description="Internal server error")
      * )
      *
      * @param Request $request
@@ -38,7 +39,7 @@ class CrawlerController extends Controller
 
         // Validation de l'entrée
         $validatedData = $request->validate([
-            'name' => 'required|string',  // Assurer un nom/prénom/pseudo valide
+            'name' => 'required|string|min:3',
         ]);
 
         $name = $validatedData['name'];
@@ -48,10 +49,10 @@ class CrawlerController extends Controller
             $response = Http::get('https://serpapi.com/search', [
                 'api_key' => env('API_KEY_SERP'),
                 'engine' => 'google',
-                'q' => $name,  // Recherche par le nom/prénom/pseudo
-                'google_domain' => 'google.fr',  // Domaine Google français
-                'gl' => 'fr',  // Paramètre de localisation pour la France
-                'hl' => 'fr',  // Langue française
+                'q' => $name,
+                'google_domain' => 'google.fr',
+                'gl' => 'fr',
+                'hl' => 'fr',
             ]);
 
             // Vérification si la réponse est valide
@@ -73,7 +74,7 @@ class CrawlerController extends Controller
             // Retourner les résultats de l'API
             return response()->json([
                 'message' => 'Informations récupérées avec succès.',
-                'data' => $data,  // Vous pouvez personnaliser cette structure en fonction des informations que vous voulez afficher
+                'data' => $data,
             ], 200);
         } catch (\Exception $e) {
             Log::error('Erreur lors de l\'appel à SerpApi: ' . $e->getMessage());
