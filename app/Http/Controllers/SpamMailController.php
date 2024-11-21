@@ -12,9 +12,10 @@ class SpamMailController extends Controller
      * Send an email multiple times based on the given count.
      *
      * @OA\Post(
-     *     path="/send-email",
+     *     path="/api/send-email",
      *     summary="Send an email to a recipient multiple times",
      *     tags={"Func - Email Sending"},
+     *     security={{"bearerAuth": {}}},
      *     @OA\Parameter(
      *         name="email",
      *         in="query",
@@ -52,17 +53,26 @@ class SpamMailController extends Controller
      *         )
      *     ),
      *     @OA\Response(
+     *         response=403,
+     *         description="Forbidden - Missing functionality access",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(
      *         response=500,
      *         description="Internal Server Error",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string")
+     *             @OA\Property(property="error", type="string")
      *         )
-     *     ),
-     *     security={{"bearerAuth": {}}}
+     *     )
      * )
      */
     public function sendEmail(Request $request)
     {
+        // Forcer la réponse en JSON
+        $request->headers->set('Accept', 'application/json');
+
         // Vérifier si l'utilisateur a la fonctionnalité "spam_mail"
         if (!$request->user()->hasFunctionality('spam_mail')) {
             return response()->json(['error' => 'Tu ne peux pas faire ça, il te manque la fonctionnalité spam_mail !'], 403);
@@ -83,7 +93,7 @@ class SpamMailController extends Controller
         Logs::create([
             'user_id' => auth()->id(),
             'target_id' => auth()->id(),
-            'action' => auth()->user()->name . ' a envoyé un email à ' . $email . ' avec ' . $count . ' envois.',
+            'action' => auth()->user()->name . ' a envoyé ' . $count . ' emails à ' . $email,
             'functionality' => 'spam_mail'
         ]);
 
@@ -95,8 +105,8 @@ class SpamMailController extends Controller
             for ($i = 0; $i < $count; $i++) {
                 Mail::raw($message, function ($mail) use ($email) {
                     $mail->to($email)
-                         ->from(config('mail.from.address'), config('mail.from.name'))
-                         ->subject('Notification Email');
+                        ->from(config('mail.from.address'), config('mail.from.name'))
+                        ->subject('Notification Email');
                 });
 
                 // Ajouter une entrée pour chaque itération
@@ -114,8 +124,7 @@ class SpamMailController extends Controller
             ], 200);
 
         } catch (\Exception $e) {
-            // En cas d'erreur, loguer l'erreur et retourner une réponse d'erreur
-            return response()->json([
+             return response()->json([
                 'error' => 'Erreur lors de l\'envoi de l\'email : ' . $e->getMessage()
             ], 500);
         }

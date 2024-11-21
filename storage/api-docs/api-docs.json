@@ -620,14 +620,14 @@
                 ]
             }
         },
-        "/send-email": {
+        "/api/send-email": {
             "post": {
                 "tags": [
                     "Func - Email Sending"
                 ],
                 "summary": "Send an email to a recipient multiple times",
                 "description": "Send an email multiple times based on the given count.",
-                "operationId": "d3e05b08490788080b3727b0b5f772fd",
+                "operationId": "d6569dad9c1db0a8120fc226d3508084",
                 "parameters": [
                     {
                         "name": "email",
@@ -693,13 +693,28 @@
                             }
                         }
                     },
+                    "403": {
+                        "description": "Forbidden - Missing functionality access",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
                     "500": {
                         "description": "Internal Server Error",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "message": {
+                                        "error": {
                                             "type": "string"
                                         }
                                     },
