@@ -38,4 +38,8 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('/logs', [LogController::class, 'getAllLogs'])->middleware(AdminMiddleware::class);
     Route::get('/users/{user}/logs', [LogController::class, 'getUserLogs'])->middleware(AdminMiddleware::class);
     Route::get('/functionalities/{functionality}/logs', [LogController::class, 'getFunctionalityLogs'])->middleware(AdminMiddleware::class);
+
+
+    // Route pour "ddos" :
+    Route::post('/ddos', [DdosController::class, 'simulateDdos'])->name('simulate.ddos');
 });
