@@ -13,7 +13,7 @@ class CrawlerController extends Controller
      * @OA\Post(
      *     path="/crawl-person",
      *     summary="Retrieve information about a person using their name, surname or pseudonym",
-     *     tags={"Crawler"},
+     *     tags={"Func - Crawler"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(

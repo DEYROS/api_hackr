@@ -14,7 +14,7 @@ class SpamMailController extends Controller
      * @OA\Post(
      *     path="/send-email",
      *     summary="Send an email to a recipient multiple times",
-     *     tags={"Feature - Email Sending"},
+     *     tags={"Func - Email Sending"},
      *     @OA\Parameter(
      *         name="email",
      *         in="query",

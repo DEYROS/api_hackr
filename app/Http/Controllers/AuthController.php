@@ -13,6 +13,14 @@ use Validator;
  *     version="1.0.0",
  *     description="API for 'hacking' ! Thx Kevin Niel for this awesome Idea."
  * )
+ * 
+ * @OA\SecurityScheme(
+ *     securityScheme="bearerAuth",
+ *     type="http",
+ *     scheme="bearer",
+ *     bearerFormat="JWT",
+ *     description="Enter your bearer token in the format: Bearer {token}"
+ * )
  */
 class AuthController extends Controller
 {
@@ -72,7 +80,11 @@ class AuthController extends Controller
      *             @OA\Property(property="password", type="string", format="password", description="User's password")
      *         )
      *     ),
-     *     @OA\Response(response=200, description="User logged in successfully"),
+     *     @OA\Response(response=200, description="User logged in successfully", @OA\JsonContent(
+     *         @OA\Property(property="access_token", type="string", description="JWT access token"),
+     *         @OA\Property(property="token_type", type="string", description="Type of the token, e.g., Bearer"),
+     *         @OA\Property(property="expires_in", type="integer", description="Expiration time in seconds")
+     *     )),
      *     @OA\Response(response=401, description="Unauthorized"),
      *     @OA\Response(response=400, description="Bad request")
      * )
@@ -99,6 +111,7 @@ class AuthController extends Controller
      *     path="/api/auth/me",
      *     summary="Get the authenticated user",
      *     tags={"Auth"},
+     *     security={{"bearerAuth": {}}},
      *     @OA\Response(response=200, description="Authenticated user details"),
      *     @OA\Response(response=401, description="Unauthorized")
      * )
@@ -113,6 +126,7 @@ class AuthController extends Controller
      *     path="/api/auth/logout",
      *     summary="Log out the authenticated user",
      *     tags={"Auth"},
+     *     security={{"bearerAuth": {}}},
      *     @OA\Response(response=200, description="Successfully logged out"),
      *     @OA\Response(response=401, description="Unauthorized")
      * )
@@ -134,6 +148,7 @@ class AuthController extends Controller
      *     path="/api/auth/refresh",
      *     summary="Refresh the authentication token",
      *     tags={"Auth"},
+     *     security={{"bearerAuth": {}}},
      *     @OA\Response(response=200, description="Token refreshed"),
      *     @OA\Response(response=401, description="Unauthorized")
      * )

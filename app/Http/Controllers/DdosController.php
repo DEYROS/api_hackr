@@ -11,13 +11,13 @@ class DdosController extends Controller
     /**
      * @OA\Post(
      *     path="/ddos",
-     *     summary="Simulate a DDoS attack by sending HTTP requests to an IP address with an optional port (maximum 2 requests)",
-     *     tags={"DDoS"},
+     *     summary="Simulate a DDoS attack by sending HTTP requests to an IP address with an optional port (maximum 30 requests)",
+     *     tags={"Func - DDoS"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
      *             @OA\Property(property="ip", type="string", description="The IP address (with optional port) to send requests to"),
-     *             @OA\Property(property="count", type="integer", description="The number of times to send the request (maximum 2)")
+     *             @OA\Property(property="count", type="integer", description="The number of times to send the request (maximum 30)")
      *         )
      *     ),
      *     @OA\Response(response=200, description="DDoS simulation complete"),

@@ -13,7 +13,7 @@ class EmailVerificationController extends Controller
      * @OA\Get(
      *     path="/verify-email",
      *     summary="Verify an email address",
-     *     tags={"Feature - Email Existence"},
+     *     tags={"Func - Email Existence"},
      *     @OA\Parameter(
      *         name="email",
      *         in="query",

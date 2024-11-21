@@ -80,7 +80,28 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "User logged in successfully"
+                        "description": "User logged in successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "access_token": {
+                                            "description": "JWT access token",
+                                            "type": "string"
+                                        },
+                                        "token_type": {
+                                            "description": "Type of the token, e.g., Bearer",
+                                            "type": "string"
+                                        },
+                                        "expires_in": {
+                                            "description": "Expiration time in seconds",
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "401": {
                         "description": "Unauthorized"
@@ -105,7 +126,12 @@
                     "401": {
                         "description": "Unauthorized"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/auth/logout": {
@@ -122,7 +148,12 @@
                     "401": {
                         "description": "Unauthorized"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/auth/refresh": {
@@ -139,7 +170,184 @@
                     "401": {
                         "description": "Unauthorized"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/crawl-person": {
+            "post": {
+                "tags": [
+                    "Func - Crawler"
+                ],
+                "summary": "Retrieve information about a person using their name, surname or pseudonym",
+                "operationId": "d8410e1d45854a8c2d464b338221429a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "The name, surname, or pseudonym of the person to search",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Information retrieved successfully"
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "403": {
+                        "description": "User does not have the necessary functionality"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/ddos": {
+            "post": {
+                "tags": [
+                    "Func - DDoS"
+                ],
+                "summary": "Simulate a DDoS attack by sending HTTP requests to an IP address with an optional port (maximum 30 requests)",
+                "operationId": "30955d71086602ddaf45021a6c9a71a4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "ip": {
+                                        "description": "The IP address (with optional port) to send requests to",
+                                        "type": "string"
+                                    },
+                                    "count": {
+                                        "description": "The number of times to send the request (maximum 30)",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "DDoS simulation complete"
+                    },
+                    "400": {
+                        "description": "Invalid input or too many requests"
+                    },
+                    "403": {
+                        "description": "User does not have the necessary functionality"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/verify-email": {
+            "get": {
+                "tags": [
+                    "Func - Email Existence"
+                ],
+                "summary": "Verify an email address",
+                "operationId": "c9ec3769b4deb6d89d9a21b98f64af5f",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "The email address to verify",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "api_key",
+                        "in": "query",
+                        "description": "The API key for Hunter.io",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Email verification result",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "email_exist": {
+                                            "description": "Whether the email exists or not",
+                                            "type": "boolean"
+                                        },
+                                        "result": {
+                                            "description": "Detailed verification result",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request - Email and API key are required",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/users/{user}/functionalities": {
@@ -399,6 +607,102 @@
                 ]
             }
         },
+        "/send-email": {
+            "post": {
+                "tags": [
+                    "Func - Email Sending"
+                ],
+                "summary": "Send an email to a recipient multiple times",
+                "description": "Send an email multiple times based on the given count.",
+                "operationId": "d3e05b08490788080b3727b0b5f772fd",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "The email address to send the message to",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "message",
+                        "in": "query",
+                        "description": "The message content to send",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "count",
+                        "in": "query",
+                        "description": "The number of times to send the email",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Email successfully sent multiple times",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Success message",
+                                            "type": "string"
+                                        },
+                                        "count": {
+                                            "description": "Number of emails sent",
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request - Missing parameters",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/users": {
             "get": {
                 "tags": [
@@ -428,10 +732,32 @@
             }
         }
     },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "description": "Enter your bearer token in the format: Bearer {token}",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
     "tags": [
         {
             "name": "Auth",
             "description": "Auth"
+        },
+        {
+            "name": "Func - Crawler",
+            "description": "Func - Crawler"
+        },
+        {
+            "name": "Func - DDoS",
+            "description": "Func - DDoS"
+        },
+        {
+            "name": "Func - Email Existence",
+            "description": "Func - Email Existence"
         },
         {
             "name": "Functionality",
@@ -444,6 +770,10 @@
         {
             "name": "Password",
             "description": "Password"
+        },
+        {
+            "name": "Func - Email Sending",
+            "description": "Func - Email Sending"
         },
         {
             "name": "Users",
