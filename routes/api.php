@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DdosController;
+use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\PasswordCheckController;
 use App\Http\Controllers\PasswordGeneratorController;
 use App\Http\Controllers\FunctionalityController;
@@ -43,4 +44,8 @@ Route::middleware(['auth:api'])->group(function () {
 
     // Route pour "ddos" :
     Route::post('/ddos', [DdosController::class, 'simulateDdos'])->name('simulate.ddos');
+
+    // Route pour vérifier l'existence d'un email
+    Route::get('/verify-email', [EmailVerificationController::class, 'verifyEmail'])->name('verify.email');
+
 });

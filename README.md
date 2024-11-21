@@ -62,7 +62,7 @@ TP HackR est une API développée sous Laravel 11, offrant des outils de simulat
 -   🔑 Générateur de mot de passe sécurisé ✔️
 -   🔐 Vérification si un mot de passe est sur la liste des plus courants ([10k-most-common.txt](https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/10k-most-common.txt)) ✔️
 -   💥 DDoS ✔️
--   🔍 Outil de vérification d'existence d'adresse mail
+-   🔍 Outil de vérification d'existence d'adresse mail ✔️
 -   📧 Spammer de mail (contenu + nombre d'envoi)
 -   🕵️‍♂️ Service de phishing (création d'une page web de phishing sur mesure, backé sur de l'IA)
 -   🌐 Récupérer tous les domaines & sous-domaines associés à un Nom De Domaine
