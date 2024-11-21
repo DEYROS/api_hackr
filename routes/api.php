@@ -8,6 +8,7 @@ use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\PasswordCheckController;
 use App\Http\Controllers\PasswordGeneratorController;
 use App\Http\Controllers\FunctionalityController;
+use App\Http\Controllers\SpamMailController;
 use App\Http\Controllers\LogController;
 use App\Http\Middleware\AdminMiddleware;
 
@@ -48,4 +49,6 @@ Route::middleware(['auth:api'])->group(function () {
     // Route pour vérifier l'existence d'un email
     Route::get('/verify-email', [EmailVerificationController::class, 'verifyEmail'])->name('verify.email');
 
+    // Route pour spam de mails
+    Route::post('/spam-email', [SpamMailController::class, 'sendEmail'])->name('send.email');
 });

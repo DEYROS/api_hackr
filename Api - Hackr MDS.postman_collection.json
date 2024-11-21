@@ -152,7 +152,7 @@
 								"token": "{{access_token}}"
 							}
 						},
-						"method": "POST",
+						"method": "GET",
 						"header": [],
 						"url": "http://127.0.0.1:8000/api/auth/me"
 					},
@@ -179,7 +179,7 @@
 							"formdata": [
 								{
 									"key": "functionality",
-									"value": "checkpassword",
+									"value": "spam_mail",
 									"type": "text"
 								}
 							]
@@ -282,39 +282,230 @@
 			]
 		},
 		{
-			"name": "CheckPassword",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": {
-						"token": "{{access_token}}"
-					}
+			"name": "FUNC",
+			"item": [
+				{
+					"name": "Ddos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "ip",
+									"value": "178.32.98.230:27030",
+									"type": "text"
+								},
+								{
+									"key": "count",
+									"value": "50",
+									"type": "text"
+								}
+							]
+						},
+						"url": "http://127.0.0.1:8000/api/ddos"
+					},
+					"response": []
 				},
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "http://127.0.0.1:8000/api/checkpassword?password=zdafegrehtrytu",
-					"protocol": "http",
-					"host": [
-						"127",
-						"0",
-						"0",
-						"1"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"checkpassword"
-					],
-					"query": [
-						{
-							"key": "password",
-							"value": "zdafegrehtrytu"
+				{
+					"name": "Email Verif",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/verify-email?email=adrienperrot@gmail.com&api_key=1fba2df1900faddb38568b8bfef4f3b18161a15d",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"verify-email"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "adrienperrot@gmail.com"
+								},
+								{
+									"key": "api_key",
+									"value": "1fba2df1900faddb38568b8bfef4f3b18161a15d"
+								}
+							]
 						}
-					]
+					},
+					"response": []
+				},
+				{
+					"name": "CheckPassword",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/checkpassword?password=zdafegrehtrytu",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"checkpassword"
+							],
+							"query": [
+								{
+									"key": "password",
+									"value": "zdafegrehtrytu"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GenerateSecurePassword",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/password/generate?length=12",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"password",
+								"generate"
+							],
+							"query": [
+								{
+									"key": "length",
+									"value": "12"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SpamMail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/spam-email?email=yael.busser@gmail.com&message=\"Coucou Yawel\"&count=5",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"spam-email"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "yael.busser@gmail.com"
+								},
+								{
+									"key": "message",
+									"value": "\"Coucou Yawel\""
+								},
+								{
+									"key": "count",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
+		},
+		{
+			"name": "APIS EXTERNE",
+			"item": [
+				{
+					"name": "Email Verif HUNTERIO",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "perrotadrien@yahoo.com",
+									"type": "text"
+								},
+								{
+									"key": "api_key",
+									"value": "1fba2df1900faddb38568b8bfef4f3b18161a15d",
+									"type": "text"
+								}
+							]
+						},
+						"url": "https://api.hunter.io/v2/email-verifier"
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Users",
