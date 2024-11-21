@@ -15,6 +15,7 @@ class FunctionalityController extends Controller
      *     path="/api/users/{user}/functionalities",
      *     summary="Add functionality to a user",
      *     tags={"Functionality"},
+     *     security={{"bearerAuth": {}}},
      *     @OA\Parameter(
      *         name="user",
      *         in="path",
@@ -29,20 +30,24 @@ class FunctionalityController extends Controller
      *         )
      *     ),
      *     @OA\Response(response=200, description="Functionality added successfully"),
-     *     @OA\Response(response=400, description="Validation error or functionality not found")
+     *     @OA\Response(response=400, description="Validation error or functionality not found"),
+     *     @OA\Response(response=403, description="Unauthorized access")
      * )
      *
      * Ajouter une fonctionnalité à un utilisateur.
      */
     public function addFunctionality(Request $request, $userId)
     {
+        // Forcer la réponse en JSON
+        $request->headers->set('Accept', 'application/json');
+
         // Valider l'entrée
         $request->validate([
             'functionality' => 'required|string|exists:functionalities,name',
         ]);
 
         // Récupérer l'utilisateur cible
-        $targetUser = User::findOrFail($userId); // Utiliser findOrFail pour lever une exception si non trouvé
+        $targetUser = User::findOrFail($userId);
 
         // Récupérer la fonctionnalité
         $functionality = Functionality::where('name', $request->input('functionality'))->first();
@@ -50,15 +55,16 @@ class FunctionalityController extends Controller
         // Associer la fonctionnalité à l'utilisateur cible
         $targetUser->functionalities()->attach($functionality->id);
 
-        // Enregistrer le log avec user_id (utilisateur authentifié) et target_id (utilisateur cible)
+        // Loguer l'ajout de fonctionnalité
         Logs::create([
-            'user_id' => auth()->id(),  // ID de l'utilisateur authentifié qui fait l'action
-            'target_id' => $targetUser->id,  // ID de l'utilisateur cible
-            'action' => 'Ajout de fonctionnalité à l\'utilisateur ' . $targetUser->name,
+            'user_id' => auth()->id(),  // Utilisateur authentifié qui effectue l'action
+            'target_id' => $targetUser->id,  // Utilisateur cible
+            'action' => 'Ajout de la fonctionnalité ' . $functionality->name . ' à l\'utilisateur ' . $targetUser->name,
             'functionality' => $functionality->id
         ]);
 
-        return response()->json(['message' => 'Fonctionnalité ajoutée avec succès.']);
+        // Réponse JSON
+        return response()->json(['message' => 'Fonctionnalité ajoutée avec succès.'], 200);
     }
 
     /**
@@ -66,6 +72,7 @@ class FunctionalityController extends Controller
      *     path="/api/users/{user}/functionalities/{functionality}",
      *     summary="Remove functionality from a user",
      *     tags={"Functionality"},
+     *     security={{"bearerAuth": {}}},
      *     @OA\Parameter(
      *         name="user",
      *         in="path",
@@ -81,40 +88,44 @@ class FunctionalityController extends Controller
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Response(response=200, description="Functionality removed successfully"),
-     *     @OA\Response(response=400, description="Validation error or functionality not associated with the user")
+     *     @OA\Response(response=400, description="Validation error or functionality not associated with the user"),
+     *     @OA\Response(response=403, description="Unauthorized access")
      * )
      *
      * Supprimer une fonctionnalité d'un utilisateur.
      */
     public function removeFunctionality(Request $request, $userId, $functionalityName)
     {
-        // Valider que l'utilisateur existe
+        // Forcer la réponse en JSON
+        $request->headers->set('Accept', 'application/json');
+
+        // Récupérer l'utilisateur cible
         $targetUser = User::findOrFail($userId);
 
         // Récupérer la fonctionnalité
         $functionality = Functionality::where('name', $functionalityName)->firstOrFail();
 
-        // Trouver l'enregistrement dans la table pivot pour l'utilisateur cible
+        // Vérifier si la fonctionnalité est associée à l'utilisateur
         $userFunctionality = UserFunctionality::where('user_id', $targetUser->id)
             ->where('functionality_id', $functionality->id)
             ->first();
 
-        // Vérifier si l'enregistrement existe
         if (!$userFunctionality) {
             return response()->json(['error' => 'Cette fonctionnalité n\'est pas associée à l\'utilisateur.'], 400);
         }
 
-        // Supprimer l'enregistrement de la table pivot
+        // Supprimer la fonctionnalité de l'utilisateur
         $userFunctionality->delete();
 
-        // Enregistrer le log avec user_id (utilisateur authentifié) et target_id (utilisateur cible)
+        // Loguer la suppression de fonctionnalité
         Logs::create([
-            'user_id' => auth()->id(),  // ID de l'utilisateur authentifié qui fait l'action
-            'target_id' => $targetUser->id,  // ID de l'utilisateur cible
-            'action' => 'Suppression de fonctionnalité de l\'utilisateur ' . $targetUser->name,
+            'user_id' => auth()->id(),  // Utilisateur authentifié qui effectue l'action
+            'target_id' => $targetUser->id,  // Utilisateur cible
+            'action' => 'Suppression de la fonctionnalité ' . $functionality->name . ' de l\'utilisateur ' . $targetUser->name,
             'functionality' => $functionality->id
         ]);
 
-        return response()->json(['message' => 'Fonctionnalité supprimée avec succès.']);
+        // Réponse JSON
+        return response()->json(['message' => 'Fonctionnalité supprimée avec succès.'], 200);
     }
 }

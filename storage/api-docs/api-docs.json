@@ -403,8 +403,16 @@
                     },
                     "400": {
                         "description": "Validation error or functionality not found"
+                    },
+                    "403": {
+                        "description": "Unauthorized access"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/users/{user}/functionalities/{functionality}": {
@@ -440,8 +448,16 @@
                     },
                     "400": {
                         "description": "Validation error or functionality not associated with the user"
+                    },
+                    "403": {
+                        "description": "Unauthorized access"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/logs": {
