@@ -259,6 +259,9 @@
                     },
                     "403": {
                         "description": "User does not have the necessary functionality"
+                    },
+                    "500": {
+                        "description": "Internal server error"
                     }
                 },
                 "security": [

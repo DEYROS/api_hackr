@@ -13,6 +13,7 @@ class DdosController extends Controller
      *     path="/ddos",
      *     summary="Simulate a DDoS attack by sending HTTP requests to an IP address with an optional port (maximum 30 requests)",
      *     tags={"Func - DDoS"},
+     *     security={{"bearerAuth": {}}},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -23,7 +24,7 @@ class DdosController extends Controller
      *     @OA\Response(response=200, description="DDoS simulation complete"),
      *     @OA\Response(response=400, description="Invalid input or too many requests"),
      *     @OA\Response(response=403, description="User does not have the necessary functionality"),
-     *     security={{"bearerAuth": {}}}
+     *     @OA\Response(response=500, description="Internal server error")
      * )
      *
      * Simulate a DDoS attack by sending HTTP requests to an IP address.
@@ -85,13 +86,16 @@ class DdosController extends Controller
                         'timeout' => 5,  // Limite de temps pour éviter que la requête traîne
                     ]
                 ]);
-                if($connection){    
-                    // connexion à l'ip réussie, donc on test plusieurs types de requêtes pour 'surcharger l'ip'
-                    // requête http
+                if ($connection) {
+                    // Connexion à l'IP réussie, plusieurs types de requêtes pour 'surcharger l'IP'
+                    
+                    // Requête HTTP
                     $stream = @fopen($url, 'r', false, $context);
-                    // requête tcp
-                    $stream = @fsockopen($ip, $port, $errno, $errstr, 5);
-                    // Requête DNS (en utilisant gethostbyname)
+
+                    // Requête TCP
+                    $tcpStream = @fsockopen($ip, $port, $errno, $errstr, 5);
+
+                    // Requête DNS (via gethostbyname)
                     $dnsResult = gethostbyname($ip);
 
                     $responses[] = [
@@ -99,7 +103,6 @@ class DdosController extends Controller
                         'message' => 'DDOS  : ' . $ip . ':' . $port
                     ];
                 }
-                
             }
 
             // Loguer l'action
@@ -117,6 +120,8 @@ class DdosController extends Controller
             ], 200);
 
         } catch (\Exception $e) {
+            Log::error('Erreur lors de la simulation DDoS : ' . $e->getMessage());
+
             // En cas d'erreur
             return response()->json(['error' => 'Erreur lors de la requête : ' . $e->getMessage()], 500);
         }
