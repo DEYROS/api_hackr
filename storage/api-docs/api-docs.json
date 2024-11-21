@@ -268,27 +268,18 @@
                 ]
             }
         },
-        "/verify-email": {
+        "/api/verify-email": {
             "get": {
                 "tags": [
                     "Func - Email Existence"
                 ],
                 "summary": "Verify an email address",
-                "operationId": "c9ec3769b4deb6d89d9a21b98f64af5f",
+                "operationId": "0ceb331b331672e9dfe93dedf75d74dc",
                 "parameters": [
                     {
                         "name": "email",
                         "in": "query",
                         "description": "The email address to verify",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "api_key",
-                        "in": "query",
-                        "description": "The API key for Hunter.io",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -317,7 +308,22 @@
                         }
                     },
                     "400": {
-                        "description": "Bad Request - Email and API key are required",
+                        "description": "Bad Request - Email is required",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "User does not have the necessary functionality",
                         "content": {
                             "application/json": {
                                 "schema": {

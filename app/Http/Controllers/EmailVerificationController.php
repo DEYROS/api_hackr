@@ -11,21 +11,15 @@ class EmailVerificationController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/verify-email",
+     *     path="/api/verify-email",
      *     summary="Verify an email address",
      *     tags={"Func - Email Existence"},
+     *     security={{"bearerAuth": {}}},
      *     @OA\Parameter(
      *         name="email",
      *         in="query",
      *         required=true,
      *         description="The email address to verify",
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
-     *         name="api_key",
-     *         in="query",
-     *         required=true,
-     *         description="The API key for Hunter.io",
      *         @OA\Schema(type="string")
      *     ),
      *     @OA\Response(
@@ -38,7 +32,14 @@ class EmailVerificationController extends Controller
      *     ),
      *     @OA\Response(
      *         response=400,
-     *         description="Bad Request - Email and API key are required",
+     *         description="Bad Request - Email is required",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="User does not have the necessary functionality",
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string")
      *         )
@@ -49,26 +50,27 @@ class EmailVerificationController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string")
      *         )
-     *     ),
-     *     security={{"bearerAuth": {}}}
+     *     )
      * )
      *
      * Verify the existence of an email address by using an external API.
      */
     public function verifyEmail(Request $request)
     {
-        Log::info("Vérification de l'email reçue");
-
-        // Récupérer l'email et la clé API des paramètres de requête
-        $email = $request->query('email');
-        $apiKey = $request->query('api_key');
-
-        // Vérifier que l'email et la clé API sont fournis
-        if (!$email || !$apiKey) {
-            return response()->json(['error' => 'Email et clé API sont requis.'], 400);
+        // Vérification si l'utilisateur a la fonctionnalité "verif_email"
+        if (!$request->user()->hasFunctionality('verif_email')) {
+            return response()->json(['error' => 'Tu ne peux pas faire ça, il te manque la fonctionnalité !'], 403);
         }
 
-        // Valider l'email
+        // Récupérer l'email des paramètres de requête
+        $email = $request->query('email');
+
+        // Vérifier que l'email est fourni
+        if (!$email) {
+            return response()->json(['error' => 'Email est requis.'], 400);
+        }
+
+        // Validation de l'email
         $validatedData = $request->validate([
             'email' => 'required|email'
         ]);
@@ -77,6 +79,7 @@ class EmailVerificationController extends Controller
 
         // Appel à l'API Hunter.io pour vérifier l'email
         $url = 'https://api.hunter.io/v2/email-verifier';
+        $apiKey = env('API_KEY_HUNTER_IO'); // Utilisation de la clé API dans le .env
 
         try {
             // Appel à l'API avec l'email et la clé API
@@ -119,6 +122,8 @@ class EmailVerificationController extends Controller
 
         } catch (\Exception $e) {
             // En cas d'erreur lors de l'appel API
+            Log::error('Erreur lors de la vérification de l\'email: ' . $e->getMessage());
+
             return response()->json([
                 'error' => 'Erreur lors de la requête API : ' . $e->getMessage()
             ], 500);
