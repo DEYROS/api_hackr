@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DdosController;
 use App\Http\Controllers\PasswordCheckController;
 use App\Http\Controllers\PasswordGeneratorController;
 use App\Http\Controllers\FunctionalityController;
