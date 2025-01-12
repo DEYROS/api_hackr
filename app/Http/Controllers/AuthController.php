@@ -1,5 +1,5 @@
 <?php
-  
+
 namespace App\Http\Controllers;
 
 use App\Models\Logs;
@@ -48,11 +48,11 @@ class AuthController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
         ]);
-  
+
         if ($validator->fails()) {
             return response()->json($validator->errors()->toJson(), 400);
         }
-  
+
         $user = new User;
         $user->name = request()->name;
         $user->email = request()->email;
@@ -67,7 +67,7 @@ class AuthController extends Controller
 
         return response()->json($user, 201);
     }
-  
+
     /**
      * @OA\Post(
      *     path="/api/auth/login",
@@ -92,7 +92,7 @@ class AuthController extends Controller
     public function login()
     {
         $credentials = request(['email', 'password']);
-  
+
         if (! $token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
@@ -105,7 +105,7 @@ class AuthController extends Controller
 
         return $this->respondWithToken($token);
     }
-  
+
     /**
      * @OA\Get(
      *     path="/api/auth/me",
@@ -120,7 +120,7 @@ class AuthController extends Controller
     {
         return response()->json(auth()->user());
     }
-  
+
     /**
      * @OA\Post(
      *     path="/api/auth/logout",
@@ -142,7 +142,7 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Successfully logged out']);
     }
-  
+
     /**
      * @OA\Post(
      *     path="/api/auth/refresh",
@@ -157,7 +157,7 @@ class AuthController extends Controller
     {
         return $this->respondWithToken(auth()->refresh());
     }
-  
+
     /**
      * Respond with the token structure.
      *

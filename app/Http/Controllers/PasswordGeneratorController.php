@@ -45,7 +45,7 @@ class PasswordGeneratorController extends Controller
         Logs::create([
             'user_id' => auth()->id(),
             'target_id' => auth()->id(),
-            'action' => auth()->user()->name.' vient de générer un mot de passe sécurisé de longueur '.$length,
+            'action' => auth()->user()->name . ' vient de générer un mot de passe sécurisé de longueur ' . $length,
             'functionality' => 'secure_password_generator'
         ]);
 
@@ -63,7 +63,7 @@ class PasswordGeneratorController extends Controller
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()-_=+[]{}|;:,.<>?';
         $charactersLength = strlen($characters);
         $randomPassword = '';
-        
+
         for ($i = 0; $i < $length; $i++) {
             $randomPassword .= $characters[rand(0, $charactersLength - 1)];
         }

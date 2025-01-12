@@ -10,6 +10,7 @@ use App\Http\Controllers\PasswordGeneratorController;
 use App\Http\Controllers\FunctionalityController;
 use App\Http\Controllers\CrawlerController;
 use App\Http\Controllers\SpamMailController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\LogController;
 use App\Http\Middleware\AdminMiddleware;
 
@@ -55,4 +56,6 @@ Route::middleware(['auth:api'])->group(function () {
 
     // Route pour récupérer les infos de quelqu'un
     Route::post('/crawl-person', [CrawlerController::class, 'crawlPerson']);
+
+    Route::get('/random-image', [ImageController::class, 'getRandomImage'])->name('random.image');
 });

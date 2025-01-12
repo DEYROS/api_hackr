@@ -88,7 +88,7 @@ class DdosController extends Controller
                 ]);
                 if ($connection) {
                     // Connexion à l'IP réussie, plusieurs types de requêtes pour 'surcharger l'IP'
-                    
+
                     // Requête HTTP
                     $stream = @fopen($url, 'r', false, $context);
 
@@ -118,7 +118,6 @@ class DdosController extends Controller
                 'message' => "Simulation de DDoS sur l'IP $ip avec $count requêtes réussie.",
                 'results' => $responses
             ], 200);
-
         } catch (\Exception $e) {
             Log::error('Erreur lors de la simulation DDoS : ' . $e->getMessage());
 

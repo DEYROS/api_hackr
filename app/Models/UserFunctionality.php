@@ -6,7 +6,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -15,8 +14,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $user_id
  * @property int $functionality_id
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
  * 
  * @property Functionality $functionality
  * @property User $user
@@ -26,8 +23,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserFunctionality extends Model
 {
 	protected $table = 'user_functionalities';
-	protected $primaryKey = 'id';
-	public $incrementing = true;
+	public $timestamps = false;
 
 	protected $casts = [
 		'user_id' => 'int',

@@ -51,7 +51,7 @@ class PasswordCheckController extends Controller
         Logs::create([
             'user_id' => auth()->id(),  // ID de l'utilisateur authentifié qui fait l'action
             'target_id' => auth()->id(),  // ID de l'utilisateur cible
-            'action' => auth()->user()->name.' vient de vérifier si le mdp '.$request->input('password').' était sécurisé',
+            'action' => auth()->user()->name . ' vient de vérifier si le mdp ' . $request->input('password') . ' était sécurisé',
             'functionality' => 'checkpassword'
         ]);
 

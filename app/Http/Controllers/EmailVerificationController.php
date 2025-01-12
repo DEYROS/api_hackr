@@ -119,7 +119,6 @@ class EmailVerificationController extends Controller
                 'error' => 'Erreur lors de la vérification de l\'email',
                 'message' => $response->body()
             ], 500);
-
         } catch (\Exception $e) {
             // En cas d'erreur lors de l'appel API
             Log::error('Erreur lors de la vérification de l\'email: ' . $e->getMessage());

@@ -122,7 +122,6 @@ class SpamMailController extends Controller
                 'count' => $count,
                 'results' => $responses
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json([
                 'error' => 'Erreur lors de l\'envoi de l\'email : ' . $e->getMessage()
