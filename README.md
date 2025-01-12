@@ -37,7 +37,7 @@
 5. Effectuez la migration de la base de données :
 
    ```bash
-   php artisan migrate
+   php artisan migrate --seed
    ```
 
 6. Lancez le serveur :
