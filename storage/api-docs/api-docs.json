@@ -460,6 +460,74 @@
                 ]
             }
         },
+        "/api/random-image": {
+            "get": {
+                "tags": [
+                    "Func - Random Image"
+                ],
+                "summary": "Download a random image",
+                "operationId": "4af2636b38cc8e1d8ed957ec789b8775",
+                "responses": {
+                    "200": {
+                        "description": "Image downloaded successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Image downloaded successfully!"
+                                        },
+                                        "url": {
+                                            "type": "string",
+                                            "example": "storage/random-images/1673639203948.jpg"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "User does not have the necessary functionality",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Tu ne peux pas faire ça, il te manque la fonctionnalité !"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error while downloading the image"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/logs": {
             "get": {
                 "tags": [
@@ -806,6 +874,10 @@
         {
             "name": "Functionality",
             "description": "Functionality"
+        },
+        {
+            "name": "Func - Random Image",
+            "description": "Func - Random Image"
         },
         {
             "name": "Logs",

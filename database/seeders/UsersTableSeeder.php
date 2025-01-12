@@ -20,7 +20,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'perrotadrien@yahoo.com',
             'email_verified_at' => null,
             'password' => '$2y$12$8O19hRhQM9HTRkg5gyt7n.ihRbXzrESjOLKTEjURPfS9ERgdS/kwS', // Assurez-vous que c'est le bon hash
-            'role_id' => 1,
+            'admin' => 1,
             'created_at' => '2024-10-11 09:25:05',
             'updated_at' => '2024-10-11 09:25:05',
         ]);
