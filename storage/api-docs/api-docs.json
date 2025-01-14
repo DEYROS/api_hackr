@@ -271,6 +271,51 @@
                 ]
             }
         },
+        "/api/crawl-domains": {
+            "post": {
+                "tags": [
+                    "Func - Domain"
+                ],
+                "summary": "Retrieve all domains and subdomains associated with a main domain",
+                "operationId": "d770be8542c944608d053797a9d9d536",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "domain": {
+                                        "description": "The main domain to search for subdomains",
+                                        "type": "string",
+                                        "example": "example.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Domains retrieved successfully"
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "403": {
+                        "description": "User does not have the necessary functionality"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/verify-email": {
             "get": {
                 "tags": [
@@ -866,6 +911,10 @@
         {
             "name": "Func - DDoS",
             "description": "Func - DDoS"
+        },
+        {
+            "name": "Func - Domain",
+            "description": "Func - Domain"
         },
         {
             "name": "Func - Email Existence",

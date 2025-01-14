@@ -2,4 +2,5 @@
 
 return [
     'API_KEY_HUNTER_IO' => env('API_KEY_HUNTER_IO'),
+    'API_KEY_SECURITYTRAILS' => env('API_KEY_SECURITYTRAILS'),
 ];

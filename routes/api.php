@@ -7,6 +7,7 @@ use App\Http\Controllers\DdosController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\PasswordCheckController;
 use App\Http\Controllers\PasswordGeneratorController;
+use App\Http\Controllers\DomainController;
 use App\Http\Controllers\FunctionalityController;
 use App\Http\Controllers\CrawlerController;
 use App\Http\Controllers\SpamMailController;
@@ -56,6 +57,8 @@ Route::middleware(['auth:api'])->group(function () {
 
     // Route pour récupérer les infos de quelqu'un
     Route::post('/crawl-person', [CrawlerController::class, 'crawlPerson']);
+
+    Route::post('/crawl-domains', [DomainController::class, 'crawlDomains']);
 
     Route::get('/random-image', [ImageController::class, 'getRandomImage'])->name('random.image');
 });

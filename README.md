@@ -34,7 +34,7 @@
    php artisan key:generate
    ```
 
-5. Effectuez la migration de la base de données :
+5. Effectuez la migration de la base de données avec par défaut un utilisateur avec toutes les fonctionnalitées et qui est admin :
 
    ```bash
    php artisan migrate --seed
@@ -48,7 +48,7 @@
 ### Projet accessible :
 
 🔗 [https://hackr.nertyrp.fr](https://hackr.nertyrp.fr)
-
+Pour utiliser Swagger il faut dans un premier temps se connecter via /api/auth/login, récupérer le access_token et le mettre dans le bouton "Authorize".
 ---
 
 ## Description :
@@ -66,7 +66,7 @@ TP HackR est une API développée sous Laravel 11, offrant des outils de simulat
 - 📧 Spammer de mail (contenu + nombre d'envoi) ✔️
 - 🕵️‍♀️ Crawler d'informations sur une personne (à partir d'un nom / prénom) ✔️
 - 🖼️ Image random de quelqu'un qui n'existe pas ✔️
-- 🌐 Récupérer tous les domaines & sous-domaines associés à un Nom De Domaine
+- 🌐 Récupérer tous les domaines & sous-domaines associés à un Nom De Domaine ✔️
 - 👤 Génération d'identité fictive (utilisez la librairie Faker !) :
   - [Faker JS](https://fakerjs.dev/)
   - [Faker PHP](https://fakerphp.org/)
