@@ -67,13 +67,7 @@ TP HackR est une API développée sous Laravel 11, offrant des outils de simulat
 - 🕵️‍♀️ Crawler d'informations sur une personne (à partir d'un nom / prénom) ✔️
 - 🖼️ Image random de quelqu'un qui n'existe pas ✔️
 - 🌐 Récupérer tous les domaines & sous-domaines associés à un Nom De Domaine ✔️
-- 👤 Génération d'identité fictive (utilisez la librairie Faker !) :
-  - [Faker JS](https://fakerjs.dev/)
-  - [Faker PHP](https://fakerphp.org/)
-  - [Faker Python](https://faker.readthedocs.io/en/master/)
-  - [Faker .NET](https://www.nuget.org/packages/Faker.Net/)
-  - [Faker JAVA](https://javadoc.io/doc/com.github.javafaker/javafaker/latest/com/github/javafaker/Faker.html)
-  - [Faker Ruby](https://github.com/faker-ruby/faker)
+- 👤 Génération d'identité fictive (utilisez la librairie [Faker PHP](https://fakerphp.org/) !) : ✔️
 - 🕵️‍♂️ Service de phishing (création d'une page web de phishing sur mesure, backé sur de l'IA)
 
 ---

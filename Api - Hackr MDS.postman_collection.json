@@ -179,12 +179,12 @@
 							"formdata": [
 								{
 									"key": "functionality",
-									"value": "spam_mail",
+									"value": "random_image",
 									"type": "text"
 								}
 							]
 						},
-						"url": "http://127.0.0.1:8000/api/users/1/functionalities"
+						"url": "http://127.0.0.1:8000/api/users/3/functionalities"
 					},
 					"response": []
 				},
@@ -203,7 +203,7 @@
 							"mode": "formdata",
 							"formdata": []
 						},
-						"url": "http://127.0.0.1:8000/api/users/1/functionalities/checkpassword"
+						"url": "http://127.0.0.1:8000/api/users/3/functionalities/random_image"
 					},
 					"response": []
 				}
@@ -311,6 +311,49 @@
 							]
 						},
 						"url": "http://127.0.0.1:8000/api/ddos"
+					},
+					"response": []
+				},
+				{
+					"name": "SpamMail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/spam-email?email=yael.busser@gmail.com&message=\"Coucou Yawel\"&count=5",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"spam-email"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "yael.busser@gmail.com"
+								},
+								{
+									"key": "message",
+									"value": "\"Coucou Yawel\""
+								},
+								{
+									"key": "count",
+									"value": "5"
+								}
+							]
+						}
 					},
 					"response": []
 				},
@@ -425,7 +468,22 @@
 					"response": []
 				},
 				{
-					"name": "SpamMail",
+					"name": "Random Image",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "http://127.0.0.1:8000/api/random-image"
+					},
+					"response": []
+				},
+				{
+					"name": "Crawler Person",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -436,7 +494,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/spam-email?email=yael.busser@gmail.com&message=\"Coucou Yawel\"&count=5",
+							"raw": "http://127.0.0.1:8000/api/crawl-person?name=Kevin Niel",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -447,20 +505,47 @@
 							"port": "8000",
 							"path": [
 								"api",
-								"spam-email"
+								"crawl-person"
 							],
 							"query": [
 								{
-									"key": "email",
-									"value": "yael.busser@gmail.com"
-								},
+									"key": "name",
+									"value": "Kevin Niel"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crawler domains",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/crawl-domains?domain=nertyrp.fr",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"crawl-domains"
+							],
+							"query": [
 								{
-									"key": "message",
-									"value": "\"Coucou Yawel\""
-								},
-								{
-									"key": "count",
-									"value": "5"
+									"key": "domain",
+									"value": "nertyrp.fr"
 								}
 							]
 						}

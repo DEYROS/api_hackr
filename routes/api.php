@@ -11,6 +11,7 @@ use App\Http\Controllers\DomainController;
 use App\Http\Controllers\FunctionalityController;
 use App\Http\Controllers\CrawlerController;
 use App\Http\Controllers\SpamMailController;
+use App\Http\Controllers\FakeIdentityController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\LogController;
 use App\Http\Middleware\AdminMiddleware;
@@ -24,12 +25,13 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::get('/me', [AuthController::class, 'me'])->middleware('auth:api')->name('me');
 });
 
-// Routes protégées par le middleware auth:api et admin
+// Routes protégées par le middleware auth:api 
 Route::middleware(['auth:api'])->group(function () {
     Route::get('/users', [UserController::class, 'getUsers']);
 
-    // Fonctionnalités : 
+    // Vérification si un mot de passe est sur la liste des plus courants 
     Route::post('/checkpassword', [PasswordCheckController::class, 'check'])->name('checkpassword');
+    // Générateur de mot de passe sécurisé
     Route::post('/password/generate', [PasswordGeneratorController::class, 'generate'])->name('generate.password');
 
     // Routes pour l'administration des fonctionnalités des utilisateurs
@@ -49,16 +51,21 @@ Route::middleware(['auth:api'])->group(function () {
     // Route pour "ddos" :
     Route::post('/ddos', [DdosController::class, 'simulateDdos'])->name('simulate.ddos');
 
-    // Route pour vérifier l'existence d'un email
+    // Outil de vérification d'existence d'adresse mail
     Route::get('/verify-email', [EmailVerificationController::class, 'verifyEmail'])->name('verify.email');
 
-    // Route pour spam de mails
+    // Spammer de mail (contenu + nombre d'envoi) 
     Route::post('/spam-email', [SpamMailController::class, 'sendEmail'])->name('send.email');
 
-    // Route pour récupérer les infos de quelqu'un
+    // Crawler d'informations sur une personne (à partir d'un nom / prénom)
     Route::post('/crawl-person', [CrawlerController::class, 'crawlPerson']);
 
+    // Récupérer tous les domaines & sous-domaines associés à un Nom De Domaine
     Route::post('/crawl-domains', [DomainController::class, 'crawlDomains']);
 
+    // Image random de quelqu'un qui n'existe pas
     Route::get('/random-image', [ImageController::class, 'getRandomImage'])->name('random.image');
+
+    // Génération d'identité fictive
+    Route::get('/fake-identity', [FakeIdentityController::class, 'generateFakeIdentity'])->name('fake.identity');
 });
