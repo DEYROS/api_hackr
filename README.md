@@ -68,7 +68,7 @@ TP HackR est une API développée sous Laravel 11, offrant des outils de simulat
 - 🖼️ Image random de quelqu'un qui n'existe pas ✔️
 - 🌐 Récupérer tous les domaines & sous-domaines associés à un Nom De Domaine ✔️
 - 👤 Génération d'identité fictive (utilisez la librairie [Faker PHP](https://fakerphp.org/) !) : ✔️
-- 🕵️‍♂️ Service de phishing (création d'une page web de phishing sur mesure, backé sur de l'IA)
+- 🕵️‍♂️ Service de phishing (création d'une page web de phishing sur mesure, backé sur de l'IA) ✔️
 
 ---
 

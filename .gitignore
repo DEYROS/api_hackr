@@ -3,6 +3,7 @@
 /public/build
 /public/hot
 /public/storage
+/public/phishing
 /public/random-images
 /storage/*.key
 /vendor

