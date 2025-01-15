@@ -518,7 +518,66 @@
 					"response": []
 				},
 				{
-					"name": "Crawler domains",
+					"name": "Phishing",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/phishing?referenceUrl=https://www.facebook.com/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"phishing"
+							],
+							"query": [
+								{
+									"key": "referenceUrl",
+									"value": "https://www.facebook.com/"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save Phishing",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{access_token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"login\": \"test\",\r\n    \"password\": \"8151165\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/savephishing"
+					},
+					"response": []
+				},
+				{
+					"name": "Crawler",
 					"request": {
 						"auth": {
 							"type": "bearer",
