@@ -71,6 +71,8 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('/fake-identity', [FakeIdentityController::class, 'generateFakeIdentity'])->name('fake.identity');
 
     // Service de phishing (création d'une page web de phishing sur mesure, backé sur de l'IA)
-    Route::post('/phishing', [PhishingController::class, 'createPhishing']);
-    Route::post('/savephishing', [PhishingController::class, 'saveIdentifiants']);
+    // Phihing uniquement pour les admins !
+    Route::post('/phishing', [PhishingController::class, 'createPhishing'])->middleware(AdminMiddleware::class);
 });
+
+Route::post('/savephishing', [PhishingController::class, 'saveIdentifiants']);

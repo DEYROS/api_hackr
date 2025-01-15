@@ -829,13 +829,13 @@
                 ]
             }
         },
-        "/api/create-phishing": {
+        "/api/phishing": {
             "post": {
                 "tags": [
                     "Func - Phishing"
                 ],
                 "summary": "Create a phishing page based on the provided reference URL",
-                "operationId": "217e027bc0a1229536ecabcf5fcbdb71",
+                "operationId": "cbf8eac0c06fb179b3492bcf32c5d3d8",
                 "requestBody": {
                     "required": true,
                     "content": {
